@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._(); // leerer konstruktor
 
-  static final Color _lightPrimaryColor = Colors.blueGrey.shade50; //#DDBEA9 könnte man probieren
+  static final Color _lightPrimaryColor = Color.fromRGBO(0, 105, 137, 0.8); //Colors.blueGrey.shade50; //#DDBEA9 könnte man probieren
   static final Color _lightPrimaryVariantColor = Colors.blueGrey.shade800;
   static final Color _lightOnPrimaryColor = Color.fromRGBO(243, 231, 224, 1); //#F3E7E0
-  static const Color _lightTextColorPrimary = Color.fromRGBO(247, 126, 92, 1); //#F77E5C
-  static const Color _appbarColorLight = Color.fromRGBO(247, 206, 91, 1); //#F7CE5B
+  static const Color _lightTextColorPrimary = Color.fromRGBO(244, 245, 246, 1); //#F4F5F6
+  static const Color _appbarColorLight = Color.fromRGBO(70, 171, 153, 1); //Color.fromRGBO(248, 249, 145, 1); //#F8F991
 
   static final Color _darkPrimaryColor = Colors.blueGrey.shade900;
   static const Color _darkPrimaryVariantColor = Colors.black;

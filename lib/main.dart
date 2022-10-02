@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
       home: Homepage(),
+      routes: const <String, WidgetBuilder>{
+        //"/root": (BuildContext context) => RootWidget(),
+      },
     );
   }
 }

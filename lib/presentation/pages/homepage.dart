@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/presentation/widgets/custom_button.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -18,18 +24,25 @@ class Homepage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text("a"),
-          Text("b"),
+          SizedBox(height: 80),
+          CustomButton(onPressed: () {}, text: "Create Task", buttonColor: themeData.colorScheme.primary),
+          SizedBox(height: 50),
+          CustomButton(onPressed: () {}, text: "Shopping list", buttonColor: themeData.colorScheme.primary),
+          SizedBox(height: 50),
+          CustomButton(onPressed: () {}, text: "Confirm Task", buttonColor: themeData.colorScheme.primary),
+          SizedBox(height: 50),
+          CustomButton(onPressed: () {}, text: "Pocket Money", buttonColor: themeData.colorScheme.primary),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         backgroundColor: themeData.appBarTheme.color,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.face, color: themeData.bottomAppBarColor),
-            label: 'Me',
+            icon: Icon(Icons.home, color: themeData.bottomAppBarColor),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.family_restroom, color: themeData.bottomAppBarColor),
