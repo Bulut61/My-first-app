@@ -6,8 +6,8 @@ class AppTheme {
   static final Color _lightPrimaryColor = Colors.blueGrey.shade50; //#DDBEA9 könnte man probieren
   static final Color _lightPrimaryVariantColor = Colors.blueGrey.shade800;
   static final Color _lightOnPrimaryColor = Color.fromRGBO(243, 231, 224, 1); //#F3E7E0
-  static const Color _lightTextColorPrimary = Color.fromRGBO(54, 34, 21, 1); //1F140C
-  static const Color _appbarColorLight = Color.fromRGBO(196, 143, 108, 1); //#C48F6C
+  static const Color _lightTextColorPrimary = Color.fromRGBO(247, 126, 92, 1); //#F77E5C
+  static const Color _appbarColorLight = Color.fromRGBO(247, 206, 91, 1); //#F7CE5B
 
   static final Color _darkPrimaryColor = Colors.blueGrey.shade900;
   static const Color _darkPrimaryVariantColor = Colors.black;
@@ -15,7 +15,7 @@ class AppTheme {
   static const Color _darkTextColorPrimary = Colors.white;
   static final Color _appbarColorDark = Colors.blueGrey.shade800;
 
-  static const Color _iconColor = Colors.white;
+  static const Color _iconColor = Color.fromRGBO(247, 126, 92, 1);
 
   static final TextStyle _lightHeadingText = TextStyle(
     color: _lightTextColorPrimary,
@@ -46,7 +46,8 @@ class AppTheme {
         color: _appbarColorLight,
         iconTheme: IconThemeData(color: _iconColor),
       ),
-      bottomAppBarColor: _appbarColorLight,
+      iconTheme: IconThemeData(color: _iconColor),
+      bottomAppBarColor: _lightTextColorPrimary,
       colorScheme: ColorScheme.light(
         primary: _lightPrimaryColor,
         onPrimary: _lightOnPrimaryColor,
