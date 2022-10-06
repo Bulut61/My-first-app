@@ -18,15 +18,14 @@ import '../pages/homepage.dart' as _i2;
 import '../pages/sign_in_page.dart' as _i1;
 
 class AppRouter extends _i3.RootStackRouter {
-  AppRouter([_i4.GlobalKey<_i4.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  AppRouter([_i4.GlobalKey<_i4.NavigatorState>? navigatorKey]) : super(navigatorKey);
 
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
     SignInPageRoute.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i1.SignInPage(),
+        child: _i1.SignInPage(),
       );
     },
     HomepageRoute.name: (routeData) {
