@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
 
 class Homepage extends StatefulWidget {
@@ -25,7 +27,13 @@ class _HomepageState extends State<Homepage> {
       body: Column(
         children: [
           SizedBox(height: 80),
-          CustomButton(onPressed: () {}, text: "Create Task", buttonColor: themeData.colorScheme.primary),
+          CustomButton(
+              onPressed: () {
+                AutoRouter.of(context).push(TaskPageRoute());
+                //print(AutoRouter.of(context).stack);
+              },
+              text: "Create Task",
+              buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
           CustomButton(onPressed: () {}, text: "Shopping list", buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
