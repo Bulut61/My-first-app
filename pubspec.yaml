@@ -31,6 +31,7 @@ environment:
 dependencies:
   auto_route: ^5.0.1
   cupertino_icons: ^1.0.2
+  firebase_core: ^1.24.0
   flutter:
     sdk: flutter
   salomon_bottom_bar: ^3.3.1
