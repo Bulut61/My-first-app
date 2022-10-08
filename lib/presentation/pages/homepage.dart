@@ -18,6 +18,21 @@ class _HomepageState extends State<Homepage> {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Column(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    context.router.replace(SignInPageRoute());
+                  },
+                  icon: Icon(Icons.logout, semanticLabel: "log out")),
+              Text(
+                "logout",
+                style: TextStyle(fontSize: 10),
+              )
+            ],
+          )
+        ],
         centerTitle: true,
         title: Text(
           "Family App",

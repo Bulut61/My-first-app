@@ -57,6 +57,10 @@ class _SignInPageState extends State<SignInPage> {
               },
               child: Text("Log in"),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("you are new?"), TextButton(onPressed: () {}, child: Text("sign in!"))],
           )
         ],
       ),
