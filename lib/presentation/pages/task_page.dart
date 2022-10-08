@@ -57,7 +57,7 @@ class _TaskPageState extends State<TaskPage> {
                         validator: (value) {
                           return value!.isNotEmpty ? null : "Invalid Field";
                         },
-                        decoration: InputDecoration(hintText: "Enter Some Text"),
+                        decoration: InputDecoration(hintText: "What is the task"),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
