@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1023388273755',
     projectId: 'family-app-61374',
     authDomain: 'family-app-61374.firebaseapp.com',
+    databaseURL: 'https://family-app-61374-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'family-app-61374.appspot.com',
   );
 
@@ -60,6 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:1023388273755:android:c65fbcda403a5572e7437e',
     messagingSenderId: '1023388273755',
     projectId: 'family-app-61374',
+    databaseURL: 'https://family-app-61374-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'family-app-61374.appspot.com',
   );
 
@@ -68,6 +67,18 @@ class DefaultFirebaseOptions {
     appId: '1:1023388273755:ios:4dafd31f15cae804e7437e',
     messagingSenderId: '1023388273755',
     projectId: 'family-app-61374',
+    databaseURL: 'https://family-app-61374-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'family-app-61374.appspot.com',
+    iosClientId: '1023388273755-4e4i0tc7b5rlept6jdin8ecu4sio7do9.apps.googleusercontent.com',
+    iosBundleId: 'com.example.projekt',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAB_-UXvbZLop2ncPVjYZQYaedc8D8YT_E',
+    appId: '1:1023388273755:ios:4dafd31f15cae804e7437e',
+    messagingSenderId: '1023388273755',
+    projectId: 'family-app-61374',
+    databaseURL: 'https://family-app-61374-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'family-app-61374.appspot.com',
     iosClientId: '1023388273755-4e4i0tc7b5rlept6jdin8ecu4sio7do9.apps.googleusercontent.com',
     iosBundleId: 'com.example.projekt',

@@ -21,10 +21,8 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(
-          "Sign in",
-          style: themeData.textTheme.headline1,
-        )),
+            child: Text("Sign in", style: TextStyle(color: Colors.white) //themeData.textTheme.headline1,
+                )),
       ),
       body: ListView(
         children: [

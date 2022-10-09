@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1023388273755",
+    "firebase_url": "https://family-app-61374-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "family-app-61374",
     "storage_bucket": "family-app-61374.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "1023388273755-piemu64g0oq6iosa7stjsq2bi0opoqog.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1023388273755-4e4i0tc7b5rlept6jdin8ecu4sio7do9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.projekt"
+              }
             }
           ]
         }

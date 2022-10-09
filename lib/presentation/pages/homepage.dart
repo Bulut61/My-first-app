@@ -19,19 +19,11 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Column(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    context.router.replace(SignInPageRoute());
-                  },
-                  icon: Icon(Icons.logout, semanticLabel: "log out")),
-              Text(
-                "logout",
-                style: TextStyle(fontSize: 10),
-              )
-            ],
-          )
+          IconButton(
+              onPressed: () {
+                context.router.replace(SignInPageRoute());
+              },
+              icon: Icon(Icons.logout, semanticLabel: "log out"))
         ],
         centerTitle: true,
         title: Text(

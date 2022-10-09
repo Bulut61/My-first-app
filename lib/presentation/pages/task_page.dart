@@ -12,7 +12,9 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  List<DropdownMenuItem<String>> list = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? selectedvalue = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,8 @@ class _TaskPageState extends State<TaskPage> {
                 height: 40,
                 child: ElevatedButton(
                     onPressed: () async {
+                      list.add(DropdownMenuItem(child: Text("Child1"), value: "Child1"));
+                      list.add(DropdownMenuItem(child: Text("Child2"), value: "Child2"));
                       await showInformationDialog(context);
                     },
                     child: Row(
@@ -59,6 +63,15 @@ class _TaskPageState extends State<TaskPage> {
                         },
                         decoration: InputDecoration(hintText: "What is the task"),
                       ),
+                      DropdownButton(
+                          hint: Text("Which child"),
+                          isExpanded: true,
+                          items: list,
+                          onChanged: (val) {
+                            setState(() {
+                              selectedvalue = val as String;
+                            });
+                          }),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
