@@ -49,7 +49,7 @@ class _HomepageState extends State<Homepage> {
           CustomButton(onPressed: () {}, text: "Pocket Money", buttonColor: themeData.colorScheme.primary),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
             label: 'Score',
           ),
         ],
-      ),
+      ),*/
     );
   }
 }

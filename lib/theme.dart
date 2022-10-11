@@ -4,7 +4,7 @@ class AppTheme {
   AppTheme._(); // leerer konstruktor
 
   static final Color _lightPrimaryColor = Color.fromRGBO(0, 105, 137, 0.8); //Colors.blueGrey.shade50; //#DDBEA9 könnte man probieren
-  static final Color _lightPrimaryVariantColor = Colors.blueGrey.shade800;
+  static final Color _lightPrimaryVariantColor = Color.fromRGBO(55, 71, 79, 1);
   static final Color _lightOnPrimaryColor = Color.fromRGBO(243, 231, 224, 1); //#F3E7E0
   static const Color _lightTextColorPrimary = Color.fromRGBO(244, 245, 246, 1); //#F4F5F6
   static const Color _appbarColorLight = Color.fromRGBO(70, 171, 153, 1); //Color.fromRGBO(248, 249, 145, 1); //#F8F991
@@ -48,6 +48,10 @@ class AppTheme {
       ),
       iconTheme: IconThemeData(color: _iconColor),
       bottomAppBarColor: _lightTextColorPrimary,
+      bottomAppBarTheme: BottomAppBarTheme(color: _appbarColorLight),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: _appbarColorLight,
+      ),
       colorScheme: ColorScheme.light(
         primary: _lightPrimaryColor,
         onPrimary: _lightOnPrimaryColor,

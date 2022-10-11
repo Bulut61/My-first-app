@@ -50,7 +50,9 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
-                context.router.replace(HomepageRoute());
+                print(context.router.stack);
+                context.router.push(HRouter());
+                //context.router.replace(HomepageRoute());
                 //print(userNameEntered);
               },
               child: Text("Log in"),
