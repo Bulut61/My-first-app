@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import '../widgets/custom_button.dart';
+import '../../widgets/custom_button.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});

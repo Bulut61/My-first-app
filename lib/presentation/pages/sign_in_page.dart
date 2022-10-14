@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
+import 'package:projekt/services/auth.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -13,6 +14,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final themeData = ThemeData();
+  final AuthService _auth = AuthService();
 
   String userNameEntered = "";
 
@@ -49,9 +51,15 @@ class _SignInPageState extends State<SignInPage> {
           Padding(
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () {
-                print(context.router.stack);
-                context.router.push(HRouter());
+              onPressed: () async {
+                dynamic result = await _auth.signInAnon();
+                if (result == null) {
+                  print("signing in failed");
+                } else {
+                  print(result.toString());
+                  context.router.push(HRouter());
+                }
+                //context.router.push(HRouter());
                 //context.router.replace(HomepageRoute());
                 //print(userNameEntered);
               },

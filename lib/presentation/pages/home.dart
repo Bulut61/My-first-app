@@ -22,10 +22,6 @@ class Home extends StatelessWidget {
         return BottomNavigationBar(
           unselectedItemColor: Colors.white,
           selectedItemColor: themeData.iconTheme.color,
-          selectedIconTheme: IconThemeData(color: themeData.iconTheme.color),
-          //backgroundColor: Colors.amber,
-
-          //backgroundColor: themeData.appBarTheme.color,
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           type: BottomNavigationBarType.fixed,
@@ -33,24 +29,24 @@ class Home extends StatelessWidget {
           elevation: 60,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.white),
+              icon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
               backgroundColor: Colors.white,
-              icon: Icon(Icons.family_restroom, color: Colors.white),
+              icon: Icon(Icons.family_restroom),
               label: 'Fam',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month, color: Colors.white),
+              icon: Icon(Icons.calendar_month),
               label: 'Calender',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.format_list_bulleted_rounded, color: Colors.white),
+              icon: Icon(Icons.format_list_bulleted_rounded),
               label: 'Tasks',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sports_score, color: Colors.white),
+              icon: Icon(Icons.sports_score),
               label: 'Score',
             ),
           ],

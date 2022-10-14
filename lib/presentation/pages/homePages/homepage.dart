@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/presentation/pages/homePages/confirm_task_page.dart';
+import 'package:projekt/presentation/pages/homePages/pocket_money_page.dart';
+import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
 
@@ -42,41 +45,40 @@ class _HomepageState extends State<Homepage> {
               text: "Create Task",
               buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
-          CustomButton(onPressed: () {}, text: "Shopping list", buttonColor: themeData.colorScheme.primary),
+          CustomButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const ShoppingListPage(),
+                    ));
+              },
+              text: "Shopping list",
+              buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
-          CustomButton(onPressed: () {}, text: "Confirm Task", buttonColor: themeData.colorScheme.primary),
+          CustomButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const ConfirmTaskPage(),
+                    ));
+              },
+              text: "Confirm Task",
+              buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
-          CustomButton(onPressed: () {}, text: "Pocket Money", buttonColor: themeData.colorScheme.primary),
+          CustomButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const PocketMoneyPage(),
+                    ));
+              },
+              text: "Pocket Money",
+              buttonColor: themeData.colorScheme.primary),
         ],
       ),
-      /*bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: themeData.appBarTheme.color,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: themeData.bottomAppBarColor),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.family_restroom, color: themeData.bottomAppBarColor),
-            label: 'Fam',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month, color: themeData.bottomAppBarColor),
-            label: 'Calender',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.format_list_bulleted_rounded, color: themeData.bottomAppBarColor),
-            label: 'Tasks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sports_score, color: themeData.bottomAppBarColor),
-            label: 'Score',
-          ),
-        ],
-      ),*/
     );
   }
 }

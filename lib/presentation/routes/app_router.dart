@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:projekt/presentation/pages/fam_page.dart';
 import 'package:projekt/presentation/pages/sign_in_page.dart';
-import 'package:projekt/presentation/pages/task_page.dart';
+import 'package:projekt/presentation/pages/homePages/task_page.dart';
 import '../pages/calender_page.dart';
 import '../pages/home.dart';
-import '../pages/homepage.dart';
+import '../pages/homePages/homepage.dart';
+import '../pages/homePages/shopping_list_page.dart';
 import '../pages/score_page.dart';
 import '../pages/tasks_bottom_page.dart';
 
@@ -34,6 +35,10 @@ import '../pages/tasks_bottom_page.dart';
             AutoRoute(
               path: 'createTask',
               page: TaskPage,
+            ),
+            AutoRoute(
+              path: 'shoppingList',
+              page: ShoppingListPage,
             ),
           ],
         ),

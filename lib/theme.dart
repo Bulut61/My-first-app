@@ -50,8 +50,12 @@ class AppTheme {
       bottomAppBarColor: _lightTextColorPrimary,
       bottomAppBarTheme: BottomAppBarTheme(color: _appbarColorLight),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: _appbarColorLight,
-      ),
+          unselectedItemColor: Colors.white,
+          backgroundColor: _appbarColorLight,
+          selectedItemColor: _iconColor,
+          selectedIconTheme: IconThemeData(
+            color: _iconColor,
+          )),
       colorScheme: ColorScheme.light(
         primary: _lightPrimaryColor,
         onPrimary: _lightOnPrimaryColor,

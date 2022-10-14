@@ -19,21 +19,19 @@ import 'package:flutter/src/widgets/framework.dart' as _i12;
 import '../pages/calender_page.dart' as _i7;
 import '../pages/fam_page.dart' as _i6;
 import '../pages/home.dart' as _i2;
-import '../pages/homepage.dart' as _i4;
+import '../pages/homePages/homepage.dart' as _i4;
 import '../pages/score_page.dart' as _i9;
 import '../pages/sign_in_page.dart' as _i1;
-import '../pages/task_page.dart' as _i5;
+import '../pages/homePages/task_page.dart' as _i5;
 import '../pages/tasks_bottom_page.dart' as _i8;
 
 class AppRouter extends _i10.RootStackRouter {
-  AppRouter([_i11.GlobalKey<_i11.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  AppRouter([_i11.GlobalKey<_i11.NavigatorState>? navigatorKey]) : super(navigatorKey);
 
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
     SignInPageRoute.name: (routeData) {
-      final args = routeData.argsAs<SignInPageRouteArgs>(
-          orElse: () => const SignInPageRouteArgs());
+      final args = routeData.argsAs<SignInPageRouteArgs>(orElse: () => const SignInPageRouteArgs());
       return _i10.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.SignInPage(key: args.key),
