@@ -15,8 +15,9 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     ValueNotifier<int> fixedMoney = ValueNotifier<int>(0);
+    ValueNotifier<int> bonusMoney = ValueNotifier<int>(0);
     fixedMoney = ValueNotifier<int>(0);
-    int bonusMoney = 0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Pocket Money"),
@@ -38,10 +39,9 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 80),
                 child: TextFormField(
-                  initialValue: "0",
                   onFieldSubmitted: (value) {
-                    fixedMoney = ValueNotifier<int>(int.parse(value));
-                    print(fixedMoney.value);
+                    fixedMoney.value = int.parse(value);
+                    //print(fixedMoney.value);
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -69,8 +69,8 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
                 constraints: BoxConstraints.tightFor(width: 80),
                 child: TextFormField(
                   onFieldSubmitted: (value) {
-                    bonusMoney = int.parse(value);
-                    print(bonusMoney);
+                    bonusMoney.value = int.parse(value);
+                    //print(bonusMoney.value);
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -83,13 +83,33 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
           ],
         ),
         SizedBox(height: 40),
-        ValueListenableBuilder<int>(
-            valueListenable: fixedMoney,
-            builder: (BuildContext context, int value, Widget? child) {
-              return Row(
-                children: [Text("${fixedMoney.value}")],
-              );
-            })
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: ValueListenableBuilder<int>(
+                  valueListenable: fixedMoney,
+                  builder: (BuildContext context, int value, Widget? child) {
+                    return Text(
+                      "${value}",
+                      style: TextStyle(fontSize: 18),
+                    );
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: ValueListenableBuilder<int>(
+                  valueListenable: bonusMoney,
+                  builder: (BuildContext context, int value, Widget? child) {
+                    return Text(
+                      "${value}",
+                      style: TextStyle(fontSize: 18),
+                    );
+                  }),
+            ),
+          ],
+        )
       ]),
     );
   }

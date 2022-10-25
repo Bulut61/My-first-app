@@ -5,7 +5,9 @@ import 'package:projekt/presentation/pages/sign_in_page.dart';
 import 'package:projekt/presentation/pages/homePages/task_page.dart';
 import '../pages/calender_page.dart';
 import '../pages/home.dart';
+import '../pages/homePages/confirm_task_page.dart';
 import '../pages/homePages/homepage.dart';
+import '../pages/homePages/pocket_money_page.dart';
 import '../pages/homePages/shopping_list_page.dart';
 import '../pages/score_page.dart';
 import '../pages/tasks_bottom_page.dart';
@@ -40,6 +42,14 @@ import '../pages/tasks_bottom_page.dart';
               path: 'shoppingList',
               page: ShoppingListPage,
             ),
+            AutoRoute(
+              path: 'ConfirmTask',
+              page: ConfirmTaskPage,
+            ),
+            AutoRoute(
+              path: 'PocketMoney',
+              page: PocketMoneyPage,
+            )
           ],
         ),
         AutoRoute(

@@ -53,6 +53,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                       TextFormField(
                         controller: _textEditingController,
                         validator: (value) {
+                          print(value);
                           return value!.isNotEmpty ? null : "Invalid Field";
                         },
                         decoration: InputDecoration(hintText: "Name of Item"),

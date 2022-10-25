@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -17,6 +18,8 @@ class _SignInPageState extends State<SignInPage> {
   final AuthService _auth = AuthService();
 
   String userNameEntered = "";
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,8 @@ class _SignInPageState extends State<SignInPage> {
               decoration: InputDecoration(labelText: "Username"),
               keyboardType: TextInputType.text,
               onChanged: (text) {
-                userNameEntered = text;
+                _emailController.text = text;
+                //userNameEntered = text;
               },
             ),
           ),
@@ -44,7 +48,7 @@ class _SignInPageState extends State<SignInPage> {
               decoration: InputDecoration(labelText: "Password"),
               keyboardType: TextInputType.text,
               onChanged: (text) {
-                userNameEntered = text;
+                _passwordController.text = text;
               },
             ),
           ),
@@ -52,16 +56,18 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () async {
-                dynamic result = await _auth.signInAnon();
+                context.router.push(HRouter());
+
+                // for future login with username and password
+
+                /*dynamic result = await _auth.signInWithEmailPassword(_emailController, _passwordController);
                 if (result == null) {
                   print("signing in failed");
                 } else {
-                  print(result.toString());
+                  result = result as User;
+                  print(result.email);
                   context.router.push(HRouter());
-                }
-                //context.router.push(HRouter());
-                //context.router.replace(HomepageRoute());
-                //print(userNameEntered);
+                }*/
               },
               child: Text("Log in"),
             ),
@@ -72,21 +78,6 @@ class _SignInPageState extends State<SignInPage> {
           )
         ],
       ),
-
-      /* SizedBox.expand(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 50),
-            Container(
-              height: 10,
-              width: 10,
-              color: Colors.black,
-            )
-          ],
-        ),
-      ),*/
     );
   }
 }

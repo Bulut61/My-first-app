@@ -47,33 +47,26 @@ class _HomepageState extends State<Homepage> {
           SizedBox(height: 50),
           CustomButton(
               onPressed: () {
-                Navigator.push(
+                AutoRouter.of(context).push(ShoppingListPageRoute());
+                /*Navigator.push(
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => const ShoppingListPage(),
-                    ));
+                    ));*/
               },
               text: "Shopping list",
               buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
           CustomButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const ConfirmTaskPage(),
-                    ));
+                AutoRouter.of(context).push(ConfirmTaskPageRoute());
               },
               text: "Confirm Task",
               buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
           CustomButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const PocketMoneyPage(),
-                    ));
+                AutoRouter.of(context).push(PocketMoneyPageRoute());
               },
               text: "Pocket Money",
               buttonColor: themeData.colorScheme.primary),
