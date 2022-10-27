@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/presentation/pages/register_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/services/auth.dart';
 
@@ -74,7 +75,14 @@ class _SignInPageState extends State<SignInPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text("you are new?"), TextButton(onPressed: () {}, child: Text("sign in!"))],
+            children: [
+              Text("you are new?"),
+              TextButton(
+                  onPressed: () {
+                    context.router.push(RRouter());
+                  },
+                  child: Text("sign in!"))
+            ],
           )
         ],
       ),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -37,6 +39,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     );
   }
 
+  // https://www.youtube.com/watch?v=Fd5ZlOxyZJ4
   Future<void> showInformationDialog(BuildContext context) async {
     return await showDialog(
         context: context,
@@ -54,7 +57,13 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                         controller: _textEditingController,
                         validator: (value) {
                           print(value);
-                          return value!.isNotEmpty ? null : "Invalid Field";
+                          //return value!.isNotEmpty ? null : "Invalid Field";
+                          if (value!.isNotEmpty) {
+                            addItem(value);
+                            return null;
+                          } else {
+                            return "invalid Field";
+                          }
                         },
                         decoration: InputDecoration(hintText: "Name of Item"),
                       ),
@@ -74,5 +83,11 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             );
           });
         });
+  }
+
+  Future addItem(String itemName) async {
+    await FirebaseFirestore.instance.collection('items').add({
+      'item name': itemName,
+    });
   }
 }
