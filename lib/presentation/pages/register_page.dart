@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(),
       //backgroundColor: Colors.blue,
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(height: 25),
           Center(child: Text("Welcome", style: GoogleFonts.bebasNeue(fontSize: 52, color: Colors.black))),
