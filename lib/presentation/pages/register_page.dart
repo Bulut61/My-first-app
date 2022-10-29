@@ -1,4 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -121,11 +124,13 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 15),
           CustomButton(
-            onPressed: () {
+            onPressed: () async {
               if (isOneFieldInvalid()) {
                 showInformationDialog(context);
+              } else {
+                await signUpUser(_emailController.text, _firstNameController.text, _lastNameController.text);
+                context.router.pop();
               }
-              context.router.pop();
             },
             text: "Sign up",
             buttonColor: Colors.purple,
@@ -156,7 +161,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text('Okay'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                     }
                   },
@@ -174,6 +178,8 @@ class _RegisterPageState extends State<RegisterPage> {
       return "invalid email format";
     } else if (_passwordController.text.isEmpty) {
       return "Password field is empty";
+    } else if (_passwordController.text.length <= 6) {
+      return "Password is too short it should be should be at least 6 characters";
     } else if (_confirmController.text != _passwordController.text) {
       return "confirmed password is wrong try again";
     } else if (_firstNameController.text.isEmpty) {
@@ -185,9 +191,18 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   bool isOneFieldInvalid() {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty || _confirmController.text != _passwordController.text || _firstNameController.text.isEmpty || _lastNameController.text.isEmpty) {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty || _confirmController.text != _passwordController.text || _firstNameController.text.isEmpty || _lastNameController.text.isEmpty || _passwordController.text.length <= 6) {
       return true;
     }
     return false;
+  }
+
+  Future signUpUser(String email, String firstName, String lastName) async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+    await FirebaseFirestore.instance.collection('users').add({
+      'email': email,
+      'firstname': firstName,
+      'lastname': lastName,
+    });
   }
 }

@@ -35,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
           Padding(
             padding: EdgeInsets.only(top: 50, left: 20, right: 20),
             child: TextField(
-              decoration: InputDecoration(labelText: "Username"),
+              decoration: InputDecoration(labelText: "Email"),
               keyboardType: TextInputType.text,
               onChanged: (text) {
                 _emailController.text = text;
