@@ -26,6 +26,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Center(
             child: Text("Sign in", style: TextStyle(color: Colors.white) //themeData.textTheme.headline1,
                 )),
@@ -81,7 +82,13 @@ class _SignInPageState extends State<SignInPage> {
                   onPressed: () {
                     context.router.push(RRouter());
                   },
-                  child: Text("sign in!"))
+                  child: Text("sign in!")),
+              SizedBox(width: 5),
+              TextButton(
+                  onPressed: () {
+                    context.router.push(JRouter());
+                  },
+                  child: Text("create or join family!"))
             ],
           )
         ],

@@ -1,7 +1,8 @@
 class Child {
-  Child({required this.name, required this.age});
-  String name;
-  int age;
+  Child({required this.firstName, required this.lastName, required this.UserId});
+  String UserId;
+  String firstName;
+  String lastName;
   int _points = 0;
   int _Allpoints = 0;
 

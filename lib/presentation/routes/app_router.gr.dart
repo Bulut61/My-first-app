@@ -11,224 +11,235 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i14;
-import 'package:auto_route/empty_router_widgets.dart' as _i4;
-import 'package:flutter/material.dart' as _i15;
-import 'package:flutter/src/widgets/framework.dart' as _i16;
+import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:auto_route/empty_router_widgets.dart' as _i5;
+import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/src/widgets/framework.dart' as _i17;
 
-import '../pages/calender_page.dart' as _i11;
-import '../pages/fam_page.dart' as _i10;
-import '../pages/home.dart' as _i3;
-import '../pages/homePages/confirm_task_page.dart' as _i8;
-import '../pages/homePages/homepage.dart' as _i5;
-import '../pages/homePages/pocket_money_page.dart' as _i9;
-import '../pages/homePages/shopping_list_page.dart' as _i7;
-import '../pages/homePages/task_page.dart' as _i6;
+import '../pages/calender_page.dart' as _i12;
+import '../pages/create%20Family%20pages/create_family_page.dart' as _i3;
+import '../pages/fam_page.dart' as _i11;
+import '../pages/home.dart' as _i4;
+import '../pages/homePages/confirm_task_page.dart' as _i9;
+import '../pages/homePages/homepage.dart' as _i6;
+import '../pages/homePages/pocket_money_page.dart' as _i10;
+import '../pages/homePages/shopping_list_page.dart' as _i8;
+import '../pages/homePages/task_page.dart' as _i7;
 import '../pages/register_page.dart' as _i2;
-import '../pages/score_page.dart' as _i13;
+import '../pages/score_page.dart' as _i14;
 import '../pages/sign_in_page.dart' as _i1;
-import '../pages/tasks_bottom_page.dart' as _i12;
+import '../pages/tasks_bottom_page.dart' as _i13;
 
-class AppRouter extends _i14.RootStackRouter {
-  AppRouter([_i15.GlobalKey<_i15.NavigatorState>? navigatorKey])
+class AppRouter extends _i15.RootStackRouter {
+  AppRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i14.PageFactory> pagesMap = {
+  final Map<String, _i15.PageFactory> pagesMap = {
     SignInPageRoute.name: (routeData) {
       final args = routeData.argsAs<SignInPageRouteArgs>(
           orElse: () => const SignInPageRouteArgs());
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.SignInPage(key: args.key),
       );
     },
     RRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i2.RegisterPage(),
       );
     },
-    HRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+    JRouter.name: (routeData) {
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i3.Home(),
+        child: const _i3.CreateFamilyPage(),
+      );
+    },
+    HRouter.name: (routeData) {
+      return _i15.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const _i4.Home(),
       );
     },
     MeRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.EmptyRouterPage(),
+        child: const _i5.EmptyRouterPage(),
       );
     },
     FamRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.EmptyRouterPage(),
+        child: const _i5.EmptyRouterPage(),
       );
     },
     CalRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.EmptyRouterPage(),
+        child: const _i5.EmptyRouterPage(),
       );
     },
     TasksRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.EmptyRouterPage(),
+        child: const _i5.EmptyRouterPage(),
       );
     },
     ScoreRouter.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.EmptyRouterPage(),
+        child: const _i5.EmptyRouterPage(),
       );
     },
     HomepageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i5.Homepage(),
+        child: const _i6.Homepage(),
       );
     },
     TaskPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i6.TaskPage(),
+        child: const _i7.TaskPage(),
       );
     },
     ShoppingListPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i7.ShoppingListPage(),
+        child: const _i8.ShoppingListPage(),
       );
     },
     ConfirmTaskPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i8.ConfirmTaskPage(),
+        child: const _i9.ConfirmTaskPage(),
       );
     },
     PocketMoneyPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i9.PocketMoneyPage(),
+        child: const _i10.PocketMoneyPage(),
       );
     },
     FamPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i10.FamPage(),
+        child: const _i11.FamPage(),
       );
     },
     CalenderPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i11.CalenderPage(),
+        child: const _i12.CalenderPage(),
       );
     },
     TasksBottomPageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i12.TasksBottomPage(),
+        child: const _i13.TasksBottomPage(),
       );
     },
     ScorePageRoute.name: (routeData) {
-      return _i14.MaterialPageX<dynamic>(
+      return _i15.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i13.ScorePage(),
+        child: const _i14.ScorePage(),
       );
     },
   };
 
   @override
-  List<_i14.RouteConfig> get routes => [
-        _i14.RouteConfig(
+  List<_i15.RouteConfig> get routes => [
+        _i15.RouteConfig(
           SignInPageRoute.name,
           path: '/',
         ),
-        _i14.RouteConfig(
+        _i15.RouteConfig(
           RRouter.name,
           path: 'register',
         ),
-        _i14.RouteConfig(
+        _i15.RouteConfig(
+          JRouter.name,
+          path: 'join',
+        ),
+        _i15.RouteConfig(
           HRouter.name,
           path: 'home',
           children: [
-            _i14.RouteConfig(
+            _i15.RouteConfig(
               MeRouter.name,
               path: 'me',
               parent: HRouter.name,
               children: [
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   HomepageRoute.name,
                   path: '',
                   parent: MeRouter.name,
                 ),
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   TaskPageRoute.name,
                   path: 'createTask',
                   parent: MeRouter.name,
                 ),
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   ShoppingListPageRoute.name,
                   path: 'shoppingList',
                   parent: MeRouter.name,
                 ),
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   ConfirmTaskPageRoute.name,
                   path: 'ConfirmTask',
                   parent: MeRouter.name,
                 ),
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   PocketMoneyPageRoute.name,
                   path: 'PocketMoney',
                   parent: MeRouter.name,
                 ),
               ],
             ),
-            _i14.RouteConfig(
+            _i15.RouteConfig(
               FamRouter.name,
               path: 'fam',
               parent: HRouter.name,
               children: [
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   FamPageRoute.name,
                   path: '',
                   parent: FamRouter.name,
                 )
               ],
             ),
-            _i14.RouteConfig(
+            _i15.RouteConfig(
               CalRouter.name,
               path: 'cal',
               parent: HRouter.name,
               children: [
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   CalenderPageRoute.name,
                   path: '',
                   parent: CalRouter.name,
                 )
               ],
             ),
-            _i14.RouteConfig(
+            _i15.RouteConfig(
               TasksRouter.name,
               path: 'tasks',
               parent: HRouter.name,
               children: [
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   TasksBottomPageRoute.name,
                   path: '',
                   parent: TasksRouter.name,
                 )
               ],
             ),
-            _i14.RouteConfig(
+            _i15.RouteConfig(
               ScoreRouter.name,
               path: 'score',
               parent: HRouter.name,
               children: [
-                _i14.RouteConfig(
+                _i15.RouteConfig(
                   ScorePageRoute.name,
                   path: '',
                   parent: ScoreRouter.name,
@@ -242,8 +253,8 @@ class AppRouter extends _i14.RootStackRouter {
 
 /// generated route for
 /// [_i1.SignInPage]
-class SignInPageRoute extends _i14.PageRouteInfo<SignInPageRouteArgs> {
-  SignInPageRoute({_i16.Key? key})
+class SignInPageRoute extends _i15.PageRouteInfo<SignInPageRouteArgs> {
+  SignInPageRoute({_i17.Key? key})
       : super(
           SignInPageRoute.name,
           path: '/',
@@ -256,7 +267,7 @@ class SignInPageRoute extends _i14.PageRouteInfo<SignInPageRouteArgs> {
 class SignInPageRouteArgs {
   const SignInPageRouteArgs({this.key});
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -266,7 +277,7 @@ class SignInPageRouteArgs {
 
 /// generated route for
 /// [_i2.RegisterPage]
-class RRouter extends _i14.PageRouteInfo<void> {
+class RRouter extends _i15.PageRouteInfo<void> {
   const RRouter()
       : super(
           RRouter.name,
@@ -277,9 +288,21 @@ class RRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.Home]
-class HRouter extends _i14.PageRouteInfo<void> {
-  const HRouter({List<_i14.PageRouteInfo>? children})
+/// [_i3.CreateFamilyPage]
+class JRouter extends _i15.PageRouteInfo<void> {
+  const JRouter()
+      : super(
+          JRouter.name,
+          path: 'join',
+        );
+
+  static const String name = 'JRouter';
+}
+
+/// generated route for
+/// [_i4.Home]
+class HRouter extends _i15.PageRouteInfo<void> {
+  const HRouter({List<_i15.PageRouteInfo>? children})
       : super(
           HRouter.name,
           path: 'home',
@@ -290,9 +313,9 @@ class HRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.EmptyRouterPage]
-class MeRouter extends _i14.PageRouteInfo<void> {
-  const MeRouter({List<_i14.PageRouteInfo>? children})
+/// [_i5.EmptyRouterPage]
+class MeRouter extends _i15.PageRouteInfo<void> {
+  const MeRouter({List<_i15.PageRouteInfo>? children})
       : super(
           MeRouter.name,
           path: 'me',
@@ -303,9 +326,9 @@ class MeRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.EmptyRouterPage]
-class FamRouter extends _i14.PageRouteInfo<void> {
-  const FamRouter({List<_i14.PageRouteInfo>? children})
+/// [_i5.EmptyRouterPage]
+class FamRouter extends _i15.PageRouteInfo<void> {
+  const FamRouter({List<_i15.PageRouteInfo>? children})
       : super(
           FamRouter.name,
           path: 'fam',
@@ -316,9 +339,9 @@ class FamRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.EmptyRouterPage]
-class CalRouter extends _i14.PageRouteInfo<void> {
-  const CalRouter({List<_i14.PageRouteInfo>? children})
+/// [_i5.EmptyRouterPage]
+class CalRouter extends _i15.PageRouteInfo<void> {
+  const CalRouter({List<_i15.PageRouteInfo>? children})
       : super(
           CalRouter.name,
           path: 'cal',
@@ -329,9 +352,9 @@ class CalRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.EmptyRouterPage]
-class TasksRouter extends _i14.PageRouteInfo<void> {
-  const TasksRouter({List<_i14.PageRouteInfo>? children})
+/// [_i5.EmptyRouterPage]
+class TasksRouter extends _i15.PageRouteInfo<void> {
+  const TasksRouter({List<_i15.PageRouteInfo>? children})
       : super(
           TasksRouter.name,
           path: 'tasks',
@@ -342,9 +365,9 @@ class TasksRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.EmptyRouterPage]
-class ScoreRouter extends _i14.PageRouteInfo<void> {
-  const ScoreRouter({List<_i14.PageRouteInfo>? children})
+/// [_i5.EmptyRouterPage]
+class ScoreRouter extends _i15.PageRouteInfo<void> {
+  const ScoreRouter({List<_i15.PageRouteInfo>? children})
       : super(
           ScoreRouter.name,
           path: 'score',
@@ -355,8 +378,8 @@ class ScoreRouter extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.Homepage]
-class HomepageRoute extends _i14.PageRouteInfo<void> {
+/// [_i6.Homepage]
+class HomepageRoute extends _i15.PageRouteInfo<void> {
   const HomepageRoute()
       : super(
           HomepageRoute.name,
@@ -367,8 +390,8 @@ class HomepageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.TaskPage]
-class TaskPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i7.TaskPage]
+class TaskPageRoute extends _i15.PageRouteInfo<void> {
   const TaskPageRoute()
       : super(
           TaskPageRoute.name,
@@ -379,8 +402,8 @@ class TaskPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.ShoppingListPage]
-class ShoppingListPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i8.ShoppingListPage]
+class ShoppingListPageRoute extends _i15.PageRouteInfo<void> {
   const ShoppingListPageRoute()
       : super(
           ShoppingListPageRoute.name,
@@ -391,8 +414,8 @@ class ShoppingListPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ConfirmTaskPage]
-class ConfirmTaskPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i9.ConfirmTaskPage]
+class ConfirmTaskPageRoute extends _i15.PageRouteInfo<void> {
   const ConfirmTaskPageRoute()
       : super(
           ConfirmTaskPageRoute.name,
@@ -403,8 +426,8 @@ class ConfirmTaskPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.PocketMoneyPage]
-class PocketMoneyPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i10.PocketMoneyPage]
+class PocketMoneyPageRoute extends _i15.PageRouteInfo<void> {
   const PocketMoneyPageRoute()
       : super(
           PocketMoneyPageRoute.name,
@@ -415,8 +438,8 @@ class PocketMoneyPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.FamPage]
-class FamPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i11.FamPage]
+class FamPageRoute extends _i15.PageRouteInfo<void> {
   const FamPageRoute()
       : super(
           FamPageRoute.name,
@@ -427,8 +450,8 @@ class FamPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.CalenderPage]
-class CalenderPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i12.CalenderPage]
+class CalenderPageRoute extends _i15.PageRouteInfo<void> {
   const CalenderPageRoute()
       : super(
           CalenderPageRoute.name,
@@ -439,8 +462,8 @@ class CalenderPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.TasksBottomPage]
-class TasksBottomPageRoute extends _i14.PageRouteInfo<void> {
+/// [_i13.TasksBottomPage]
+class TasksBottomPageRoute extends _i15.PageRouteInfo<void> {
   const TasksBottomPageRoute()
       : super(
           TasksBottomPageRoute.name,
@@ -451,8 +474,8 @@ class TasksBottomPageRoute extends _i14.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.ScorePage]
-class ScorePageRoute extends _i14.PageRouteInfo<void> {
+/// [_i14.ScorePage]
+class ScorePageRoute extends _i15.PageRouteInfo<void> {
   const ScorePageRoute()
       : super(
           ScorePageRoute.name,

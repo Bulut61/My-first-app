@@ -5,6 +5,7 @@ import 'package:projekt/presentation/pages/register_page.dart';
 import 'package:projekt/presentation/pages/sign_in_page.dart';
 import 'package:projekt/presentation/pages/homePages/task_page.dart';
 import '../pages/calender_page.dart';
+import '../pages/create Family pages/create_family_page.dart';
 import '../pages/home.dart';
 import '../pages/homePages/confirm_task_page.dart';
 import '../pages/homePages/homepage.dart';
@@ -25,6 +26,11 @@ import '../pages/tasks_bottom_page.dart';
       path: 'register',
       name: 'rRouter',
       page: RegisterPage,
+    ),
+    AutoRoute(
+      path: 'join',
+      name: 'jRouter',
+      page: CreateFamilyPage,
     ),
     AutoRoute(
       path: 'home',
