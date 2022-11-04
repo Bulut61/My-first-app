@@ -11,7 +11,7 @@ class CalenderPage extends StatefulWidget {
 }
 
 class _CalenderPageState extends State<CalenderPage> {
-  DateTime now = DateTime.utc(2022, 10, 15, 14, 30, 000);
+  //DateTime now = DateTime.utc(2022, 10, 15, 14, 30, 000);
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
@@ -36,7 +36,10 @@ class _CalenderPageState extends State<CalenderPage> {
         body: ListView(
           children: [
             TableCalendar(
-              eventLoader: _getEventsForDay,
+              eventLoader: (day) {
+                return _getEventsForDay(day);
+              },
+              //eventLoader: _getEventsForDay,
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: _focusedDay,
@@ -93,7 +96,6 @@ class _CalenderPageState extends State<CalenderPage> {
                                         );
                                       } else {
                                         selectedEvents[_selectedDay] = [Event(title: _eventController.text)];
-                                        selectedEvents[now] = [Event(title: "hallo")];
                                       }
                                     }
                                     _eventController.clear();
@@ -113,12 +115,6 @@ class _CalenderPageState extends State<CalenderPage> {
   List<Event> _getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
   }
-
-  /*List<Event> _getEvents() {
-    List<Event> events = List<Event>.empty();
-    
-    return events;
-  }*/
 }
 
 class Event {

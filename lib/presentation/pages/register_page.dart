@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../services/auth.dart';
 import '../routes/app_router.gr.dart';
 import '../widgets/custom_button.dart';
 
@@ -129,7 +130,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 showInformationDialog(context);
               } else {
                 await signUpUser(_emailController.text, _firstNameController.text, _lastNameController.text);
-                context.router.pop();
+                context.router.replace(JRouter());
+                //context.router.pop();
               }
             },
             text: "Sign up",
@@ -203,6 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'email': email,
       'firstname': firstName,
       'lastname': lastName,
+      'hasfamily': false,
     });
   }
 }

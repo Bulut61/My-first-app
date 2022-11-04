@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,6 +9,7 @@ import 'package:projekt/presentation/pages/homePages/pocket_money_page.dart';
 import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
+import '../../../services/auth.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -16,6 +19,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late final User? user;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -23,7 +28,9 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
+                await _auth.signOut();
+                setState(() {});
                 context.router.replace(SignInPageRoute());
               },
               icon: Icon(Icons.logout, semanticLabel: "log out"))
@@ -34,9 +41,9 @@ class _HomepageState extends State<Homepage> {
           style: themeData.textTheme.headline1,
         ),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          SizedBox(height: 80),
+          SizedBox(height: 60),
           CustomButton(
               onPressed: () {
                 AutoRouter.of(context).push(TaskPageRoute());
@@ -70,8 +77,55 @@ class _HomepageState extends State<Homepage> {
               },
               text: "Pocket Money",
               buttonColor: themeData.colorScheme.primary),
+          TextButton(
+              onPressed: () async {
+                User? a = AuthService.getUser();
+                //print(a?.uid);
+                //TODO delete just for testing purposes
+                await hasFamily();
+                //print(xy);
+              },
+              child: Text("print!!!")),
+          TextButton(onPressed: () {}, child: Text("user"))
         ],
       ),
     );
+  }
+
+  getCurrentUserDELELTEME() async {
+    try {
+      user = _auth.currentUser;
+      print(user?.uid);
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("User is not logged in"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.router.replace(SignInPageRoute());
+                      },
+                      child: Text("login"))
+                ],
+              ));
+    }
+  }
+
+  //TODO delete just for testing purposes
+  Future hasFamily() async {
+    String? currentUserEmail = AuthService.getUserEmail();
+    //String x = await FirebaseFirestore.instance.collection('users').get().toString();
+    //return x;
+    FirebaseFirestore.instance.collection('users').get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        if ((doc["email"]) == "eminem@gmail.com") {
+          print((doc["email"]) + " " + (doc["firstname"]) + " " + (doc["hasfamily"]).toString());
+        }
+        //print("x: " + currentUserEmail!);
+        //print(doc["email"]);
+      });
+    });
   }
 }

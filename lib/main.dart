@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:projekt/presentation/pages/homePages/homepage.dart';
 import 'package:projekt/presentation/pages/sign_in_page.dart';
@@ -17,6 +18,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final appRouter = AppRouter();
+  //List<PageRouteInfo<dynamic>>? liste = [];
+
   MyApp({super.key});
 
   @override
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      routerDelegate: appRouter.delegate(),
+      routerDelegate: appRouter.delegate(initialRoutes: List.empty()),
       routeInformationParser: appRouter.defaultRouteParser(),
     );
   }
