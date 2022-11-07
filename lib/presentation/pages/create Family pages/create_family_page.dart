@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,6 +22,13 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
   void dispose() {
     _familyNameController.dispose();
     super.dispose();
+  }
+
+  Future createFamilyFirebase(String FamilyName) async {
+    var ref = await FirebaseFirestore.instance.collection('family').add({
+      'name': FamilyName,
+    }).catchError((error) => print("Failed to create family: $error"));
+    print(ref.id);
   }
 
   @override
@@ -69,6 +77,9 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                         "Family name to short!!! atleast 2 characters",
                                         style: TextStyle(fontSize: 12, color: Colors.red),
                                       ))));
+                            } else {
+                              createFamilyFirebase(_familyNameController.text);
+                              Navigator.pop(context);
                             }
                           },
                           child: Text("ok"))

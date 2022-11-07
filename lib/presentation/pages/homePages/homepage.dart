@@ -86,7 +86,11 @@ class _HomepageState extends State<Homepage> {
                 //print(xy);
               },
               child: Text("print!!!")),
-          TextButton(onPressed: () {}, child: Text("user"))
+          TextButton(
+              onPressed: () {
+                AutoRouter.of(context).push(JRouter());
+              },
+              child: Text("create family"))
         ],
       ),
     );

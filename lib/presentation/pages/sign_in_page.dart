@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +26,7 @@ class _SignInPageState extends State<SignInPage> {
   final _passwordController = TextEditingController();
 
   late bool family;
+  late StreamController<int> controller = StreamController();
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _SignInPageState extends State<SignInPage> {
     //family = hasFamily();
   }
 
+  //TODO routing for auth status
   @override
   Widget build(BuildContext context) {
     return _getSignInContent(); /*StreamBuilder<User?>(
@@ -69,6 +73,10 @@ class _SignInPageState extends State<SignInPage> {
       });
     });
     return b;
+  }
+
+  Future<String> getFamilyId() async {
+    return "";
   }
 
   Widget _getSignInContent() => Scaffold(

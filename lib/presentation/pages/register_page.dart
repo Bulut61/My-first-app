@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projekt/family_classes/fam_member.dart';
 
 import '../../services/auth.dart';
 import '../routes/app_router.gr.dart';
@@ -130,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 showInformationDialog(context);
               } else {
                 await signUpUser(_emailController.text, _firstNameController.text, _lastNameController.text);
-                context.router.replace(JRouter());
+                context.router.replace(JRouter()); // create family page
                 //context.router.pop();
               }
             },
@@ -201,11 +202,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future signUpUser(String email, String firstName, String lastName) async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-    await FirebaseFirestore.instance.collection('users').add({
+    var instance = await FirebaseFirestore.instance.collection('users').add({
       'email': email,
       'firstname': firstName,
       'lastname': lastName,
       'hasfamily': false,
-    });
+    }).catchError((error) => print("Failed to add user: $error"));
+    FamMember(UserId: instance.id, firstName: firstName, lastName: lastName);
   }
 }

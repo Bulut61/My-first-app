@@ -18,7 +18,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final appRouter = AppRouter();
-  //List<PageRouteInfo<dynamic>>? liste = [];
 
   MyApp({super.key});
 
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      routerDelegate: appRouter.delegate(initialRoutes: List.empty()),
+      routerDelegate: appRouter.delegate(),
       routeInformationParser: appRouter.defaultRouteParser(),
     );
   }
