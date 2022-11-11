@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projekt/family_classes/Child.dart';
 import 'package:projekt/family_classes/fam_member.dart';
 
 import '../../services/auth.dart';
@@ -20,6 +21,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  late FamMember member;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -33,9 +35,9 @@ class _RegisterPageState extends State<RegisterPage> {
       //backgroundColor: Colors.blue,
       body: ListView(
         children: [
-          SizedBox(height: 25),
+          SizedBox(height: 15),
           Center(child: Text("Welcome", style: GoogleFonts.bebasNeue(fontSize: 52, color: Colors.black))),
-          SizedBox(height: 25),
+          SizedBox(height: 15),
 
           // Email inputfield
           TextField(
@@ -202,12 +204,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future signUpUser(String email, String firstName, String lastName) async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-    var instance = await FirebaseFirestore.instance.collection('users').add({
+    DocumentReference instance = await FirebaseFirestore.instance.collection('users').add({
       'email': email,
       'firstname': firstName,
       'lastname': lastName,
       'hasfamily': false,
+      'parent': false,
     }).catchError((error) => print("Failed to add user: $error"));
-    FamMember(UserId: instance.id, firstName: firstName, lastName: lastName);
+    member = FamMember(UserId: instance.id, firstName: firstName, lastName: lastName);
   }
 }

@@ -21,6 +21,8 @@ class AuthService {
     }
   }
 
+  //sign in with email with password
+
   static Future signInWithEmailPassword(TextEditingController email, TextEditingController password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
@@ -50,8 +52,6 @@ class AuthService {
   static String? getUserEmail() {
     return _auth.currentUser!.email;
   }
-
-  //sign in with email with password
 
   //register with email and password
 
