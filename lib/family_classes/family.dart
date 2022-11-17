@@ -5,26 +5,28 @@ import 'package:projekt/family_classes/task.dart';
 import 'Child.dart';
 
 class Family {
-  String _FamilyName = "";
-  String _FamilyId = "";
-  int _FamilySize = 0;
+  String _familyName = "";
+  String _familyId = "";
+  int _familySize = 0;
   //late Map<String, Parent> parents;
   List<Parent> parents = [];
   List<Child> childs = [];
   List<Task> tasks = [];
 
-  Family({required String FamilyName, required String FamilyId, required String ParentsFirstName, required String ParentsLastName, required String ParentsUserId}) {
-    _FamilyName = FamilyName;
-    _FamilyId = FamilyId;
-    _FamilySize = 1;
-    parents.add(Parent(firstName: ParentsFirstName, lastName: ParentsLastName, UserId: ParentsUserId));
+  Family({required String familyName, required String familyId, required String parentsFirstName, required String parentsLastName, required String parentsUserId}) {
+    _familyName = familyName;
+    _familyId = familyId;
+    _familySize = 1;
+    parents.add(Parent(fName: parentsFirstName, lName: parentsLastName, uid: parentsUserId));
     //parents[ParentsUserId] = Parent(firstName: ParentsFirstName, lastName: ParentsLastName, UserId: ParentsUserId);
   }
+
+  getFamilyId() => _familyId;
 
   getFamilySize() => parents.length + childs.length;
 
   void addParent(String firstName, String lastName, String UserId) {
-    parents.add(Parent(firstName: firstName, lastName: lastName, UserId: UserId));
+    parents.add(Parent(fName: firstName, lName: lastName, uid: UserId));
     increaseFamilySize();
   }
 
@@ -34,6 +36,20 @@ class Family {
   }
 
   void increaseFamilySize() {
-    _FamilySize = _FamilySize + 1;
+    _familySize = _familySize + 1;
+  }
+
+  String familyString() {
+    String res;
+    res = "familyname: " + _familyName + " " + "Family Id: " + _familyId + " parents: " + parents.toString() + " children: " + childs.toString();
+    return res;
+  }
+
+  List getListParents() {
+    return parents;
+  }
+
+  List getListOfChildren() {
+    return childs;
   }
 }

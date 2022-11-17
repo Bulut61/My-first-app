@@ -12,9 +12,24 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  late String taskName;
   List<DropdownMenuItem<String>> list = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? selectedvalue = "";
+  String familyId = "";
+
+  Future createTask() async {
+    String famId = "";
+    /*FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance.collection('users').doc(id).set({
+      'email': email,
+      'firstname': firstName,
+      'lastname': lastName,
+      'hasfamily': false,
+      'parent': false,
+    }).catchError((error) => print("Failed to add user: $error"));
+    UserService.setMember(firstName, lastName, id);*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +108,7 @@ class _TaskPageState extends State<TaskPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Do something like updating SharedPreferences or User Settings etc.
+                      taskName = _textEditingController.text;
                       Navigator.of(context).pop();
                     }
                   },

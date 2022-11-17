@@ -1,7 +1,7 @@
 import 'package:projekt/family_classes/fam_member.dart';
 
 class Child extends FamMember {
-  Child({required String firstName, required String lastName, required String UserId}) : super(firstName: '', lastName: '', UserId: '');
+  Child({required String firstName, required String lastName, required String UserId}) : super(firstName: firstName, lastName: lastName, UserId: UserId);
   int _points = 0;
   int _Allpoints = 0;
 

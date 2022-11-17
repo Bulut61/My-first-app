@@ -3,4 +3,9 @@ class FamMember {
   String UserId;
   String firstName;
   String lastName;
+
+  @override
+  String toString() {
+    return firstName;
+  }
 }

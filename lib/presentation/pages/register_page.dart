@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:projekt/family_classes/Child.dart';
 import 'package:projekt/family_classes/fam_member.dart';
+import 'package:projekt/services/user_service.dart';
 
 import '../../services/auth.dart';
 import '../routes/app_router.gr.dart';
@@ -88,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   borderSide: BorderSide(color: Colors.black),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                hintText: 'Confirm email'),
+                hintText: 'Confirm password'),
           ),
           SizedBox(height: 15),
 
@@ -132,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
               if (isOneFieldInvalid()) {
                 showInformationDialog(context);
               } else {
-                await signUpUser(_emailController.text, _firstNameController.text, _lastNameController.text);
+                await signUpUser(_emailController.text.trim(), _firstNameController.text.trim(), _lastNameController.text.trim());
                 context.router.replace(JRouter()); // create family page
                 //context.router.pop();
               }
@@ -204,13 +205,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future signUpUser(String email, String firstName, String lastName) async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-    DocumentReference instance = await FirebaseFirestore.instance.collection('users').add({
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance.collection('users').doc(id).set({
       'email': email,
       'firstname': firstName,
       'lastname': lastName,
       'hasfamily': false,
       'parent': false,
     }).catchError((error) => print("Failed to add user: $error"));
-    member = FamMember(UserId: instance.id, firstName: firstName, lastName: lastName);
+    UsersService.setMember(firstName, lastName, id);
   }
 }

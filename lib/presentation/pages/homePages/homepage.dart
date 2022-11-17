@@ -10,6 +10,7 @@ import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
 import 'package:projekt/services/load_data_firebase.dart';
+import 'package:projekt/services/user_service.dart';
 import '../../../services/auth.dart';
 
 class Homepage extends StatefulWidget {
@@ -20,6 +21,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  late Map<String, dynamic> data;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final User? user;
   @override
@@ -81,13 +83,15 @@ class _HomepageState extends State<Homepage> {
           TextButton(
               onPressed: () async {
                 User? a = AuthService.getUser();
-                //print(a?.uid);
-                //TODO delete just for testing purposes
-                //await hasFamily();
-                //print(await getIdOfCurrentUser());
-                //print(xy);
-                //await setHasFamily();
-                await LoadDataFirebase.setHasFamily();
+                data = await LoadDataFirebase.getDocumentUser(a!.uid);
+                if (data.containsKey("hasfamily")) {
+                  if (data["hasfamily"] = true) {
+                    print("gangster");
+                  }
+                }
+                UsersService.setFamily(data["lastname"], data["familyid"], data["firstname"], data["lastname"], a!.uid);
+                //print(data.toString());
+                //await LoadDataFirebase.setHasFamily(a!.uid);
               },
               child: Text("print!!!")),
           TextButton(
@@ -122,16 +126,6 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  Future setHasFamily() async {
-    String UserId = "";
-    UserId = await getIdOfCurrentUser();
-    if (UserId.length < 1) {
-      print("setHasFamily userId length is invalid");
-    } else {
-      await FirebaseFirestore.instance.collection('users').doc(UserId).update({"hasfamily": true}).then((value) => print("DocumentSnapshot successfully updated!"), onError: (e) => print("Error updating document $e"));
-    }
-  }
-
   Future<String> getIdOfCurrentUser() async {
     String? currentUserEmail = AuthService.getUserEmail();
     String id = "";
@@ -146,21 +140,5 @@ class _HomepageState extends State<Homepage> {
       return id;
     }
     return id;
-  }
-
-  //TODO delete just for testing purposes
-  Future hasFamily() async {
-    String? currentUserEmail = AuthService.getUserEmail();
-    //String x = await FirebaseFirestore.instance.collection('users').get().toString();
-    //return x;
-    await FirebaseFirestore.instance.collection('users').get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        if ((doc["email"]) == currentUserEmail) {
-          print((doc["email"]) + " " + (doc["firstname"]) + " " + (doc["hasfamily"]).toString() + " " + doc.id);
-        }
-        //print("x: " + currentUserEmail!);
-        //print(doc["email"]);
-      });
-    });
   }
 }

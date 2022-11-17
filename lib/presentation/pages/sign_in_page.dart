@@ -137,7 +137,7 @@ class _SignInPageState extends State<SignInPage> {
                     onPressed: () {
                       context.router.push(RRouter());
                     },
-                    child: Text("sign in!")),
+                    child: Text("register!")),
                 SizedBox(width: 5),
                 TextButton(
                     onPressed: () {

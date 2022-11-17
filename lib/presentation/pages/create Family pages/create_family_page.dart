@@ -8,7 +8,9 @@ import 'package:projekt/presentation/pages/homePages/pocket_money_page.dart';
 import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
+import 'package:projekt/services/auth.dart';
 import 'package:projekt/services/load_data_firebase.dart';
+import 'package:projekt/services/user_service.dart';
 
 class CreateFamilyPage extends StatefulWidget {
   const CreateFamilyPage({super.key});
@@ -20,6 +22,10 @@ class CreateFamilyPage extends StatefulWidget {
 class _CreateFamilyPageState extends State<CreateFamilyPage> {
   TextEditingController _familyNameController = TextEditingController();
   TextEditingController _familyIdController = TextEditingController();
+  late String familyID;
+  late String firstName;
+  late String lastName;
+  late String uid;
 
   void dispose() {
     _familyNameController.dispose();
@@ -38,12 +44,13 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
       print("create family failed");
       return;
     }
-    format = currentUserId + " " + currentUserFirstName;
+    format = "$currentUserId $currentUserFirstName";
     var ref = await FirebaseFirestore.instance.collection('family').add({
       'name': FamilyName,
       'members': [format],
     }).catchError((error) => print("Failed to create family: $error"));
-    print(ref.id);
+    familyID = ref.id;
+    LoadDataFirebase.setHasFamily(familyID).catchError((e) => print("setHasFamily failed $e"));
   }
 
   Future joinFamilyFirebase(String familyId) async {
@@ -61,7 +68,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
     await FirebaseFirestore.instance.collection('family').doc(familyId).update({
       "members": FieldValue.arrayUnion([format]),
     }).then((value) => print("DocumentSnapshot successfully updated!"), onError: (e) => print("Error updating document $e"));
-    LoadDataFirebase.setHasFamily();
+    LoadDataFirebase.setHasFamily(familyId);
     List<dynamic> mylist = await LoadDataFirebase.getFamilyMembers(familyId);
     mylist.forEach((element) {
       print(element.toString());
@@ -105,7 +112,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                           },
                           child: Text("cancel")),
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_familyNameController.text.length < 2) {
                               showDialog(
                                   context: context,
@@ -115,8 +122,33 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                         style: TextStyle(fontSize: 12, color: Colors.red),
                                       ))));
                             } else {
-                              createFamilyFirebase(_familyNameController.text);
-                              Navigator.pop(context);
+                              if (await LoadDataFirebase.getHasFamily()) {
+                                showDialog(
+                                    context: context,
+                                    builder: ((context) => AlertDialog(
+                                            title: Text(
+                                          "You are already in a Family",
+                                          style: TextStyle(fontSize: 12, color: Colors.red),
+                                        ))));
+                              } else {
+                                await createFamilyFirebase(_familyNameController.text.trim());
+
+                                if (familyID.length > 1) {
+                                  firstName = await LoadDataFirebase.getFirstNameOfCurrentUser();
+                                  lastName = await LoadDataFirebase.getLastNameOfCurrentUser();
+                                  uid = await AuthService.getUserId();
+                                  UsersService.setFamily(_familyNameController.text, familyID, firstName, lastName, uid);
+                                  print(UsersService.family.getFamilyId());
+                                  UsersService.family.parents.forEach((element) {
+                                    print(element.firstName);
+                                  });
+                                  //print(UserService.family.familyString());
+                                } else {
+                                  print("family id was to short in create family");
+                                }
+                                Navigator.pop(context);
+                                context.router.push(HRouter());
+                              }
                             }
                           },
                           child: Text("ok"))
@@ -143,7 +175,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                           },
                           child: Text("cancel")),
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_familyIdController.text.length < 2) {
                               showDialog(
                                   context: context,
@@ -153,8 +185,18 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                         style: TextStyle(fontSize: 12, color: Colors.red),
                                       ))));
                             } else {
-                              joinFamilyFirebase(_familyIdController.text);
-                              Navigator.pop(context);
+                              if (await LoadDataFirebase.getHasFamily()) {
+                                showDialog(
+                                    context: context,
+                                    builder: ((context) => AlertDialog(
+                                            title: Text(
+                                          "You are already in a Family",
+                                          style: TextStyle(fontSize: 12, color: Colors.red),
+                                        ))));
+                              } else {
+                                joinFamilyFirebase(_familyIdController.text.trim());
+                                Navigator.pop(context);
+                              }
                             }
                           },
                           child: Text("ok"))
