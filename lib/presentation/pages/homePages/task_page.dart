@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/Child.dart';
+import 'package:projekt/family_classes/task.dart';
+import 'package:projekt/services/auth.dart';
+import 'package:projekt/services/load_data_firebase.dart';
 
+import '../../../services/user_service.dart';
 import '../../widgets/custom_button.dart';
 
 class TaskPage extends StatefulWidget {
@@ -12,23 +18,43 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  void initState() {
+    getList();
+    super.initState();
+  }
+
+  List<String> list = <String>[];
   late String taskName;
-  List<DropdownMenuItem<String>> list = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? selectedvalue = "";
+  String selectedvalue = "hallo";
   String familyId = "";
 
-  Future createTask() async {
+  Future createTask(Task task) async {
+    DocumentReference<Map<String, dynamic>> doc;
     String famId = "";
-    /*FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance.collection('users').doc(id).set({
-      'email': email,
-      'firstname': firstName,
-      'lastname': lastName,
-      'hasfamily': false,
-      'parent': false,
-    }).catchError((error) => print("Failed to add user: $error"));
-    UserService.setMember(firstName, lastName, id);*/
+    famId = UsersService.getFamily().getFamilyId();
+    print("famId: " + famId);
+    doc = await FirebaseFirestore.instance.collection("family").doc(famId);
+    await doc.collection("tasks").add(task.getData());
+  }
+
+  getList() async {
+    String familyId = "";
+    String firstname = "";
+    List<dynamic> familyList;
+    List<dynamic> childsList;
+    await FirebaseFirestore.instance.collection('users').doc(AuthService.getUserId()).get().then((value) {
+      familyId = value.get('familyid');
+    });
+    familyList = await LoadDataFirebase.getFamilyMembers(familyId);
+    familyList.forEach((element) async {
+      if (!await LoadDataFirebase.getIsParent(element)) {
+        firstname = await LoadDataFirebase.getFirstnameWithId(element);
+        list.add(firstname);
+        selectedvalue = list.first;
+      }
+    });
+    setState(() {});
   }
 
   @override
@@ -46,14 +72,17 @@ class _TaskPageState extends State<TaskPage> {
                 height: 40,
                 child: ElevatedButton(
                     onPressed: () async {
-                      list.add(DropdownMenuItem(child: Text("Child1"), value: "Child1"));
-                      list.add(DropdownMenuItem(child: Text("Child2"), value: "Child2"));
                       await showInformationDialog(context);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [Icon(Icons.add), SizedBox(width: 5), Text('Add Task')],
-                    ))))
+                    )))),
+        /*TextButton(
+            onPressed: () async {
+              await getList();
+            },
+            child: Text("testbutton")),*/
       ]),
     );
   }
@@ -80,11 +109,17 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       DropdownButton(
                           hint: Text("Which child"),
+                          value: selectedvalue,
                           isExpanded: true,
-                          items: list,
+                          items: list.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                           onChanged: (val) {
                             setState(() {
-                              selectedvalue = val as String;
+                              selectedvalue = val!;
                             });
                           }),
                       Row(
@@ -105,10 +140,13 @@ class _TaskPageState extends State<TaskPage> {
               actions: <Widget>[
                 TextButton(
                   child: Text('Okay'),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       // Do something like updating SharedPreferences or User Settings etc.
                       taskName = _textEditingController.text;
+                      print(taskName);
+                      Task task = Task(task: 'task', points: 2, deadline: DateTime.now(), child: Child(UserId: '3', firstName: '', lastName: ''));
+                      await createTask(task);
                       Navigator.of(context).pop();
                     }
                   },

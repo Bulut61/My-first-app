@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +11,9 @@ import 'package:projekt/presentation/pages/homePages/homepage.dart';
 import 'package:projekt/presentation/pages/register_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/services/auth.dart';
+
+import '../../services/load_data_firebase.dart';
+import '../../services/user_service.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -19,6 +23,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  late Map<String, dynamic> userData;
+  late Map<String, dynamic> familyData;
   final themeData = ThemeData();
 
   String userNameEntered = "";
@@ -123,7 +129,22 @@ class _SignInPageState extends State<SignInPage> {
                   } else {
                     result = result as User;
                     print(result.email);
-                    context.router.push(HRouter());
+                    userData = await LoadDataFirebase.getDocumentUser(result!.uid);
+                    if (userData.containsKey("hasfamily")) {
+                      if (userData["hasfamily"] = true) {
+                        print(userData.toString());
+                        print(userData["hasfamily"].toString());
+                        print(result!.uid);
+                        print("gangster");
+                      }
+                    }
+                    if (userData.containsKey("familyid")) {
+                      familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
+                      UsersService.setFamily(userData["lastname"], userData["familyid"], userData["firstname"], userData["lastname"], result!.uid);
+                      context.router.push(HRouter());
+                    } else {
+                      context.router.replace(JRouter());
+                    }
                   }
                 },
                 child: Text("Log in"),

@@ -20,8 +20,10 @@ class CreateFamilyPage extends StatefulWidget {
 }
 
 class _CreateFamilyPageState extends State<CreateFamilyPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _familyNameController = TextEditingController();
   TextEditingController _familyIdController = TextEditingController();
+  bool isParrent = false;
   late String familyID;
   late String firstName;
   late String lastName;
@@ -35,38 +37,29 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
 
   Future createFamilyFirebase(String FamilyName) async {
     String currentUserId = "";
-    String currentUserFirstName = "";
-    String format = ""; // id + " " + firstname;
     currentUserId = await LoadDataFirebase.getIdOfCurrentUser();
-    currentUserFirstName = await LoadDataFirebase.getFirstNameOfCurrentUser();
-
-    if (currentUserId.length < 1 || currentUserFirstName.length < 1) {
+    if (currentUserId.length < 1) {
       print("create family failed");
       return;
     }
-    format = "$currentUserId $currentUserFirstName";
     var ref = await FirebaseFirestore.instance.collection('family').add({
       'name': FamilyName,
-      'members': [format],
+      'members': [currentUserId],
     }).catchError((error) => print("Failed to create family: $error"));
     familyID = ref.id;
     LoadDataFirebase.setHasFamily(familyID).catchError((e) => print("setHasFamily failed $e"));
+    LoadDataFirebase.setIsParrent();
   }
 
   Future joinFamilyFirebase(String familyId) async {
     String currentUserId = "";
-    String currentUserFirstName = "";
-    String format = ""; // id + " " + firstname;
-
     currentUserId = await LoadDataFirebase.getIdOfCurrentUser();
-    currentUserFirstName = await LoadDataFirebase.getFirstNameOfCurrentUser();
-    if (familyId.length < 2 || currentUserId.length < 1 || currentUserFirstName.length < 1) {
+    if (familyId.length < 2 || currentUserId.length < 1) {
       print("join family failed");
       return;
     }
-    format = currentUserId + " " + currentUserFirstName;
     await FirebaseFirestore.instance.collection('family').doc(familyId).update({
-      "members": FieldValue.arrayUnion([format]),
+      "members": FieldValue.arrayUnion([currentUserId]),
     }).then((value) => print("DocumentSnapshot successfully updated!"), onError: (e) => print("Error updating document $e"));
     LoadDataFirebase.setHasFamily(familyId);
     List<dynamic> mylist = await LoadDataFirebase.getFamilyMembers(familyId);
@@ -160,54 +153,78 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
               buttonColor: themeData.colorScheme.primary),
           SizedBox(height: 50),
           CustomButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text("Id of Family"),
-                    content: TextFormField(
-                      controller: _familyIdController,
-                    ),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("cancel")),
-                      TextButton(
-                          onPressed: () async {
-                            if (_familyIdController.text.length < 2) {
-                              showDialog(
-                                  context: context,
-                                  builder: ((context) => AlertDialog(
-                                          title: Text(
-                                        "Family ID to short!!! atleast 2 characters",
-                                        style: TextStyle(fontSize: 12, color: Colors.red),
-                                      ))));
-                            } else {
-                              if (await LoadDataFirebase.getHasFamily()) {
-                                showDialog(
-                                    context: context,
-                                    builder: ((context) => AlertDialog(
-                                            title: Text(
-                                          "You are already in a Family",
-                                          style: TextStyle(fontSize: 12, color: Colors.red),
-                                        ))));
-                              } else {
-                                joinFamilyFirebase(_familyIdController.text.trim());
-                                Navigator.pop(context);
-                              }
-                            }
-                          },
-                          child: Text("ok"))
-                    ],
-                  ),
-                );
+              onPressed: () async {
+                await showInformationDialog(context);
               },
               text: "Join Family",
               buttonColor: themeData.colorScheme.primary),
         ],
       ),
     );
+  }
+
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          final TextEditingController _textEditingController = TextEditingController();
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _textEditingController,
+                        validator: (value) {
+                          return value!.isNotEmpty ? null : "Invalid Field";
+                        },
+                        decoration: InputDecoration(hintText: "Id of family"),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Are you a parrent?"),
+                          Checkbox(
+                              value: isParrent,
+                              onChanged: (checked) {
+                                setState(() {
+                                  isParrent = checked!;
+                                });
+                              })
+                        ],
+                      )
+                    ],
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Okay'),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      if (await LoadDataFirebase.getHasFamily()) {
+                        showDialog(
+                            context: context,
+                            builder: ((context) => AlertDialog(
+                                    title: Text(
+                                  "You are already in a Family",
+                                  style: TextStyle(fontSize: 12, color: Colors.red),
+                                ))));
+                      } else {
+                        if (isParrent) {
+                          await LoadDataFirebase.setIsParrent();
+                        }
+                        joinFamilyFirebase(_textEditingController.text.trim());
+                        context.router.push(HRouter());
+                        //Navigator.pop(context);
+                      }
+                      // Do something like updating SharedPreferences or User Settings etc.
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
   }
 }

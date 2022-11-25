@@ -21,7 +21,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  late Map<String, dynamic> data;
+  late Map<String, dynamic> userData;
+  late Map<String, dynamic> familyData;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final User? user;
   @override
@@ -83,13 +84,15 @@ class _HomepageState extends State<Homepage> {
           TextButton(
               onPressed: () async {
                 User? a = AuthService.getUser();
-                data = await LoadDataFirebase.getDocumentUser(a!.uid);
-                if (data.containsKey("hasfamily")) {
-                  if (data["hasfamily"] = true) {
+                userData = await LoadDataFirebase.getDocumentUser(a!.uid);
+                if (userData.containsKey("hasfamily")) {
+                  if (userData["hasfamily"] = true) {
                     print("gangster");
                   }
                 }
-                UsersService.setFamily(data["lastname"], data["familyid"], data["firstname"], data["lastname"], a!.uid);
+                familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
+                UsersService.setFamily(userData["lastname"], userData["familyid"], userData["firstname"], userData["lastname"], a!.uid);
+                print(familyData.toString());
                 //print(data.toString());
                 //await LoadDataFirebase.setHasFamily(a!.uid);
               },
