@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:projekt/presentation/pages/fam_page.dart';
+import 'package:projekt/presentation/pages/homePages/child_confirm_task_page.dart';
 import 'package:projekt/presentation/pages/register_page.dart';
 import 'package:projekt/presentation/pages/sign_in_page.dart';
 import 'package:projekt/presentation/pages/homePages/task_page.dart';
@@ -61,7 +62,11 @@ import '../pages/tasks_bottom_page.dart';
             AutoRoute(
               path: 'PocketMoney',
               page: PocketMoneyPage,
-            )
+            ),
+            AutoRoute(
+              path: 'CompletedTasks',
+              page: ChildConfirmTaskPage,
+            ),
           ],
         ),
         AutoRoute(

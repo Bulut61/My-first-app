@@ -130,7 +130,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                   firstName = await LoadDataFirebase.getFirstNameOfCurrentUser();
                                   lastName = await LoadDataFirebase.getLastNameOfCurrentUser();
                                   uid = await AuthService.getUserId();
-                                  UsersService.setFamily(_familyNameController.text, familyID, firstName, lastName, uid);
+                                  UsersService.setFamily(_familyNameController.text, familyID);
                                   print(UsersService.family.getFamilyId());
                                   UsersService.family.parents.forEach((element) {
                                     print(element.firstName);
@@ -214,7 +214,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                         if (isParrent) {
                           await LoadDataFirebase.setIsParrent();
                         }
-                        joinFamilyFirebase(_textEditingController.text.trim());
+                        await joinFamilyFirebase(_textEditingController.text.trim());
                         context.router.push(HRouter());
                         //Navigator.pop(context);
                       }

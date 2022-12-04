@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/task.dart';
 import 'package:projekt/services/user_service.dart';
 
-import '../../family_classes/task.dart';
-
-class TasksBottomPage extends StatefulWidget {
-  const TasksBottomPage({super.key});
+class ChildConfirmTaskPage extends StatefulWidget {
+  const ChildConfirmTaskPage({super.key});
 
   @override
-  State<TasksBottomPage> createState() => _TasksBottomPageState();
+  State<ChildConfirmTaskPage> createState() => _ChildConfirmTaskPageState();
 }
 
-class _TasksBottomPageState extends State<TasksBottomPage> {
+class _ChildConfirmTaskPageState extends State<ChildConfirmTaskPage> {
   List<Task>? tasks;
 
-  @override
   void initState() {
     super.initState();
 
@@ -29,6 +29,8 @@ class _TasksBottomPageState extends State<TasksBottomPage> {
     });
   }
 
+  bool? _value = false;
+
   @override
   Widget build(BuildContext context) {
     return tasks == null || !UsersService.loadedstatus.value
@@ -39,13 +41,15 @@ class _TasksBottomPageState extends State<TasksBottomPage> {
                 itemBuilder: (ctx, i) {
                   Task task = tasks![i];
                   return Card(
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.task_rounded,
-                        color: Colors.blue,
-                      ),
+                    child: CheckboxListTile(
                       title: Text(task.task),
                       subtitle: Text('Points: ${task.points}'),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _value = value;
+                        });
+                      },
+                      value: _value,
                     ),
                   );
                 },

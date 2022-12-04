@@ -13,11 +13,11 @@ class Family {
   List<Child> childs = [];
   List<Task> tasks = [];
 
-  Family({required String familyName, required String familyId, required String parentsFirstName, required String parentsLastName, required String parentsUserId}) {
+  Family({required String familyName, required String familyId}) {
     _familyName = familyName;
     _familyId = familyId;
     _familySize = 1;
-    parents.add(Parent(fName: parentsFirstName, lName: parentsLastName, uid: parentsUserId));
+    //parents.add(Parent(fName: parentsFirstName, lName: parentsLastName, uid: parentsUserId));
     //parents[ParentsUserId] = Parent(firstName: ParentsFirstName, lastName: ParentsLastName, UserId: ParentsUserId);
   }
 

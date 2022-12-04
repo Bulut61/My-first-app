@@ -4,7 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/Child.dart';
+import 'package:projekt/family_classes/parent.dart';
+import 'package:projekt/presentation/pages/homePages/child_homepage.dart';
 import 'package:projekt/presentation/pages/homePages/confirm_task_page.dart';
+import 'package:projekt/presentation/pages/homePages/parent_Homepage.dart';
 import 'package:projekt/presentation/pages/homePages/pocket_money_page.dart';
 import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
@@ -21,90 +25,42 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  void initState() {
+    super.initState();
+    getUserAndFamilyObj();
+  }
+
+  late Map<String, dynamic> userdoc;
   late Map<String, dynamic> userData;
   late Map<String, dynamic> familyData;
+  late List<dynamic> familyMembers;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final User? user;
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await _auth.signOut();
-                setState(() {});
-                context.router.replace(SignInPageRoute());
-              },
-              icon: Icon(Icons.logout, semanticLabel: "log out"))
-        ],
-        centerTitle: true,
-        title: Text(
-          "Family App",
-          style: themeData.textTheme.headline1,
-        ),
-      ),
-      body: ListView(
-        children: [
-          SizedBox(height: 60),
-          CustomButton(
-              onPressed: () {
-                AutoRouter.of(context).push(TaskPageRoute());
-                //print(AutoRouter.of(context).stack);
-              },
-              text: "Create Task",
-              buttonColor: themeData.colorScheme.primary),
-          SizedBox(height: 50),
-          CustomButton(
-              onPressed: () {
-                AutoRouter.of(context).push(ShoppingListPageRoute());
-                /*Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const ShoppingListPage(),
-                    ));*/
-              },
-              text: "Shopping list",
-              buttonColor: themeData.colorScheme.primary),
-          SizedBox(height: 50),
-          CustomButton(
-              onPressed: () {
-                AutoRouter.of(context).push(ConfirmTaskPageRoute());
-              },
-              text: "Confirm Task",
-              buttonColor: themeData.colorScheme.primary),
-          SizedBox(height: 50),
-          CustomButton(
-              onPressed: () {
-                AutoRouter.of(context).push(PocketMoneyPageRoute());
-              },
-              text: "Pocket Money",
-              buttonColor: themeData.colorScheme.primary),
-          TextButton(
-              onPressed: () async {
-                User? a = AuthService.getUser();
-                userData = await LoadDataFirebase.getDocumentUser(a!.uid);
-                if (userData.containsKey("hasfamily")) {
-                  if (userData["hasfamily"] = true) {
-                    print("gangster");
-                  }
-                }
-                familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
-                UsersService.setFamily(userData["lastname"], userData["familyid"], userData["firstname"], userData["lastname"], a!.uid);
-                print(familyData.toString());
-                //print(data.toString());
-                //await LoadDataFirebase.setHasFamily(a!.uid);
-              },
-              child: Text("print!!!")),
-          TextButton(
-              onPressed: () {
-                AutoRouter.of(context).push(JRouter());
-              },
-              child: Text("create family")),
-          TextButton(onPressed: () {}, child: Text("change has family status"))
-        ],
-      ),
+    return ValueListenableBuilder(
+      valueListenable: UsersService.loadedstatus,
+      builder: (context, value, child) {
+        if (!UsersService.loadedstatus.value) {
+          return Text("loading...");
+        } else {
+          return getPage();
+        }
+      },
+    );
+  }
+
+  Widget getPage() {
+    return ValueListenableBuilder(
+      valueListenable: UsersService.isParentstatus,
+      builder: (context, value, child) {
+        if (UsersService.isParentstatus.value) {
+          return ParentHomepage();
+        } else {
+          return ChildHomePage();
+        }
+      },
     );
   }
 
@@ -143,5 +99,23 @@ class _HomepageState extends State<Homepage> {
       return id;
     }
     return id;
+  }
+
+  getUserAndFamilyObj() async {
+    String id = await AuthService.getUserId();
+    userData = await LoadDataFirebase.getDocumentUser(id);
+    familyMembers = await LoadDataFirebase.getFamilyMembers(userData["familyid"]);
+    familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
+    if (userData.containsKey("parent")) {
+      if (userData["parent"] == true) {
+        UsersService.isParentstatus.value = true;
+        UsersService.memberIsParent(userData["firstname"], userData["lastname"], id);
+      } else {
+        UsersService.isParentstatus.value = false;
+        UsersService.memberIsChild(userData["firstname"], userData["lastname"], id);
+      }
+    }
+    UsersService.setFamily(familyData["name"], userData["familyid"]);
+    await UsersService.buildFamily(familyMembers);
   }
 }

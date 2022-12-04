@@ -140,7 +140,7 @@ class _SignInPageState extends State<SignInPage> {
                     }
                     if (userData.containsKey("familyid")) {
                       familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
-                      UsersService.setFamily(userData["lastname"], userData["familyid"], userData["firstname"], userData["lastname"], result!.uid);
+                      UsersService.setFamily(userData["lastname"], userData["familyid"]);
                       context.router.push(HRouter());
                     } else {
                       context.router.replace(JRouter());

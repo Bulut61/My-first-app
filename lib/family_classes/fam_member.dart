@@ -8,4 +8,8 @@ class FamMember {
   String toString() {
     return firstName;
   }
+
+  String getFirstName() {
+    return this.firstName;
+  }
 }
