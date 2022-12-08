@@ -133,6 +133,8 @@ class _RegisterPageState extends State<RegisterPage> {
               if (isOneFieldInvalid()) {
                 showInformationDialog(context);
               } else {
+                UsersService.resetService();
+                UsersService.loadedstatus.value = false;
                 await signUpUser(_emailController.text.trim(), _firstNameController.text.trim(), _lastNameController.text.trim());
                 context.router.replace(JRouter()); // create family page
                 //context.router.pop();
@@ -204,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUpUser(String email, String firstName, String lastName) async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
     String id = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance.collection('users').doc(id).set({
       'email': email,

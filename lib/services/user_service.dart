@@ -7,8 +7,8 @@ import 'package:projekt/family_classes/parent.dart';
 import 'load_data_firebase.dart';
 
 class UsersService {
-  static late FamMember member;
-  static late Family family;
+  static late FamMember? member;
+  static late Family? family;
   static bool isParent = false;
   static ValueNotifier<bool> loadedstatus = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isParentstatus = ValueNotifier<bool>(false);
@@ -18,27 +18,26 @@ class UsersService {
   }
 
   static Future buildFamily(List<dynamic> familyMembers) async {
-    familyMembers.forEach((element) async {
+    for (var element in familyMembers) {
       Map<String, dynamic> userdoc = await LoadDataFirebase.getDocumentUser(element);
       if (userdoc["parent"]) {
-        print("user: ${userdoc["firstname"]}");
         Parent parent = Parent(fName: userdoc["firstname"], lName: userdoc["lastname"], uid: element);
         UsersService.addParrentToFamily(parent);
       } else {
         Child child = Child(firstName: userdoc["firstname"], lastName: userdoc["lastname"], UserId: element);
         UsersService.addChildToFamily(child);
       }
-      loadedstatus.value = true;
-      setState() {}
-    });
+    }
+    setState() {}
+    loadedstatus.value = true;
   }
 
   static void addChildToFamily(Child child) {
-    family.addChild(child.firstName, child.lastName, child.UserId);
+    family!.addChild(child.firstName, child.lastName, child.UserId);
   }
 
   static void addParrentToFamily(Parent parent) {
-    family.addParent(parent.firstName, parent.lastName, parent.UserId);
+    family!.addParent(parent.firstName, parent.lastName, parent.UserId);
   }
 
   static void setMember(String firstNaMe, String lastName, String UserId) {
@@ -54,10 +53,15 @@ class UsersService {
   }
 
   static FamMember getMember() {
-    return member;
+    return member!;
   }
 
   static Family getFamily() {
-    return family;
+    return family!;
+  }
+
+  static resetService() {
+    member = null;
+    family = null;
   }
 }

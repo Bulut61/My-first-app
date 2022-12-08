@@ -18,9 +18,9 @@ class _ChildConfirmTaskPageState extends State<ChildConfirmTaskPage> {
   void initState() {
     super.initState();
 
-    String familyId = UsersService.family.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
+    String familyId = UsersService.family!.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
 
-    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member.UserId).snapshots().listen((event) {
+    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member!.UserId).snapshots().listen((event) {
       tasks = [];
       event.docs.forEach((element) {
         tasks!.add(Task.fromSnapshot(element));

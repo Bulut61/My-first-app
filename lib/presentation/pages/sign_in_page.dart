@@ -40,6 +40,7 @@ class _SignInPageState extends State<SignInPage> {
     // TODO DELETE ME
     _emailController.text = "bulut@gmail.com";
     _passwordController.text = "bulut61";
+    UsersService.resetService();
     //family = hasFamily();
   }
 
@@ -141,6 +142,7 @@ class _SignInPageState extends State<SignInPage> {
                     if (userData.containsKey("familyid")) {
                       familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);
                       UsersService.setFamily(userData["lastname"], userData["familyid"]);
+                      UsersService.loadedstatus.value = false;
                       context.router.push(HRouter());
                     } else {
                       context.router.replace(JRouter());
@@ -162,9 +164,13 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(width: 5),
                 TextButton(
                     onPressed: () {
-                      context.router.push(JRouter());
+                      if (UsersService.member == null) {
+                        print("user is null");
+                      } else {
+                        print(UsersService.member!.firstName);
+                      }
                     },
-                    child: Text("create or join family!"))
+                    child: Text("User Id!"))
               ],
             )
           ],

@@ -131,8 +131,8 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                   lastName = await LoadDataFirebase.getLastNameOfCurrentUser();
                                   uid = await AuthService.getUserId();
                                   UsersService.setFamily(_familyNameController.text, familyID);
-                                  print(UsersService.family.getFamilyId());
-                                  UsersService.family.parents.forEach((element) {
+                                  print(UsersService.family!.getFamilyId());
+                                  UsersService.family!.parents.forEach((element) {
                                     print(element.firstName);
                                   });
                                   //print(UserService.family.familyString());

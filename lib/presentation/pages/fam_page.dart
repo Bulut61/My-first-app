@@ -17,7 +17,7 @@ class _FamPageState extends State<FamPage> {
 
   void initState() {
     if (UsersService.loadedstatus.value) {
-      members = new List.from(UsersService.family.parents)..addAll(UsersService.family.childs);
+      members = new List.from(UsersService.family!.parents)..addAll(UsersService.family!.childs);
     }
   }
 
@@ -30,9 +30,18 @@ class _FamPageState extends State<FamPage> {
             body: Column(
               children: [
                 SizedBox(height: 8),
-                Text(
-                  "Family ID: ${UsersService.family.getFamilyId()}",
-                  style: TextStyle(color: Colors.purple, fontSize: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Family ID: ",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    SelectableText(
+                      "${UsersService.family!.getFamilyId()}",
+                      style: TextStyle(color: Colors.purple, fontSize: 16),
+                    )
+                  ],
                 ),
                 SizedBox(height: 8),
                 Expanded(
@@ -43,7 +52,7 @@ class _FamPageState extends State<FamPage> {
                           child: ListTile(
                             leading: Icon(
                               Icons.account_circle,
-                              color: members![i].firstName.trim() == UsersService.member.firstName.trim() ? Colors.black : Colors.purple, //Colors.purple,
+                              color: members![i].firstName.trim() == UsersService.member!.firstName.trim() ? Colors.black : Colors.purple, //Colors.purple,
                             ),
                             title: Text(member.firstName),
                             subtitle: Text(member.lastName),

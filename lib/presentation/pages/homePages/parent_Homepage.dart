@@ -8,6 +8,7 @@ import 'package:projekt/presentation/widgets/custom_button.dart';
 import 'package:projekt/services/auth.dart';
 import 'package:projekt/services/load_data_firebase.dart';
 import 'package:projekt/services/user_service.dart';
+import 'package:intl/intl.dart';
 
 class ParentHomepage extends StatefulWidget {
   const ParentHomepage({super.key});
@@ -18,6 +19,14 @@ class ParentHomepage extends StatefulWidget {
 
 late Map<String, dynamic> userData;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final DateTime datenow = DateTime.now();
+
+printDate() {
+  //String result = "";
+  //result = datenow.month.toString();
+  String formatDate(DateTime datenow) => DateFormat("MMMM d").format(datenow);
+  print(formatDate(datenow));
+}
 
 class _ParentHomepageState extends State<ParentHomepage> {
   @override
@@ -94,9 +103,9 @@ class _ParentHomepageState extends State<ParentHomepage> {
               child: Text("create family")),
           TextButton(
               onPressed: () {
-                print(UsersService.isParentstatus.value);
+                printDate();
               },
-              child: Text("is parent"))
+              child: Text("date format"))
         ],
       ),
     );

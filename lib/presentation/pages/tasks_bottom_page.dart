@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:projekt/services/user_service.dart';
 
 import '../../family_classes/task.dart';
+import 'package:intl/intl.dart';
 
 class TasksBottomPage extends StatefulWidget {
   const TasksBottomPage({super.key});
@@ -18,15 +19,20 @@ class _TasksBottomPageState extends State<TasksBottomPage> {
   void initState() {
     super.initState();
 
-    String familyId = UsersService.family.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
+    String familyId = UsersService.family!.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
 
-    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member.UserId).snapshots().listen((event) {
+    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member!.UserId).snapshots().listen((event) {
       tasks = [];
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         tasks!.add(Task.fromSnapshot(element));
-      });
+      }
       setState(() {});
     });
+  }
+
+  String formatDatetime(DateTime date) {
+    String formatDate(DateTime date) => new DateFormat("MMMM d").format(date);
+    return formatDate(date);
   }
 
   @override
@@ -38,16 +44,18 @@ class _TasksBottomPageState extends State<TasksBottomPage> {
             body: ListView.builder(
                 itemBuilder: (ctx, i) {
                   Task task = tasks![i];
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.task_rounded,
-                        color: Colors.blue,
-                      ),
-                      title: Text(task.task),
-                      subtitle: Text('Points: ${task.points}'),
-                    ),
-                  );
+                  return task.deadline.isBefore(DateTime.now())
+                      ? SizedBox.shrink()
+                      : Card(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.task_rounded,
+                              color: Colors.blue,
+                            ),
+                            title: Text(task.task),
+                            subtitle: Text('Points: ${task.points},    due: ${formatDatetime(task.deadline)}'),
+                          ),
+                        );
                 },
                 itemCount: tasks!.length),
           );

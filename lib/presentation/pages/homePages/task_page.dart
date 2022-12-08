@@ -146,7 +146,7 @@ class _TaskPageState extends State<TaskPage> {
                             setState(() {
                               selectedvalue = val!;
                             });
-                            selectedChild = UsersService.family.childs.firstWhere((element) => element.firstName == selectedvalue);
+                            selectedChild = UsersService.family!.childs.firstWhere((element) => element.firstName == selectedvalue);
                             if (selectedChild != null) {
                               print(selectedChild?.firstName);
                             } else {
@@ -188,10 +188,14 @@ class _TaskPageState extends State<TaskPage> {
                       taskName = _textEditingController.text;
                       taskPoints = int.parse(_pointsEditingController.text);
                       print(taskName);
-                      Task task = Task(task: taskName, points: taskPoints, deadline: choosedDate, child: selectedChild!);
-                      print("1");
+                      if (selectedChild == null) {
+                        if (UsersService.family!.childs == null) {
+                          Navigator.of(context).pop();
+                        }
+                        selectedChild = UsersService.family!.childs.first;
+                      }
+                      Task task = Task(task: taskName, points: taskPoints, deadline: choosedDate, child: selectedChild!, needsConfirm: true, isDone: false);
                       await createTask(task);
-                      print("2");
                       Navigator.of(context).pop();
                     }
                   },
