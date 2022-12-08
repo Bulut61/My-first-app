@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/task.dart';
+import 'package:projekt/services/user_service.dart';
 
 class ConfirmTaskPage extends StatefulWidget {
   const ConfirmTaskPage({super.key});
@@ -10,17 +13,75 @@ class ConfirmTaskPage extends StatefulWidget {
 }
 
 class _ConfirmTaskPageState extends State<ConfirmTaskPage> {
+  List<Task>? tasks;
+
+  void initState() {
+    super.initState();
+
+    String familyId = UsersService.family!.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
+
+    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('needsconfirm', isEqualTo: false).where('isdone', isEqualTo: false).snapshots().listen((event) {
+      tasks = [];
+      for (var element in event.docs) {
+        tasks!.add(Task.fromSnapshot(element));
+      }
+      setState(() {});
+    });
+  }
+
+  isDone(String taskId) {
+    String familyId = UsersService.family!.getFamilyId().toString().trim();
+    DocumentReference<Map<String, dynamic>> doc = FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').doc(taskId);
+    doc.update({"isdone": true}).then((value) => print("DocumentSnapshot successfully updated!"), onError: (e) => print("Error updating document $e"));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Confirm Task"),
-        centerTitle: true,
-      ),
-      body: Column(children: [
-        SizedBox(height: 30),
-        //TODO After getting a List with with the tasks listview with checkbox to confirm points and delete from list
-      ]),
-    );
+    return tasks == null || !UsersService.loadedstatus.value
+        ? Text('Loading...')
+        : Scaffold(
+            appBar: AppBar(title: Text("Confirm tasks"), centerTitle: true),
+            body: ListView.builder(
+                itemBuilder: (ctx, i) {
+                  Task task = tasks![i];
+                  return Card(
+                    child: CheckboxListTile(
+                      title: Text(task.task),
+                      subtitle: Text('Points: ${UsersService.family!.childs.firstWhere((element) => element.UserId == task.child).firstName}'),
+                      onChanged: (bool? value) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              "Are you done with the task?",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("cancel")),
+                              TextButton(
+                                  onPressed: () {
+                                    print(task.taskId);
+                                    setState(() {
+                                      task.needsConfirm = (!value!);
+                                    });
+                                    Navigator.pop(context);
+                                    tasks?.removeAt(i);
+                                    isDone(task.taskId);
+                                  },
+                                  child: Text("confirm!")),
+                            ],
+                          ),
+                        );
+                      },
+                      value: task.needsConfirm,
+                    ),
+                  );
+                },
+                itemCount: tasks!.length),
+          );
   }
 }

@@ -20,36 +20,67 @@ class _ChildConfirmTaskPageState extends State<ChildConfirmTaskPage> {
 
     String familyId = UsersService.family!.getFamilyId().toString().trim(); // UsersService.family.getFamilyId();
 
-    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member!.UserId).snapshots().listen((event) {
+    FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').where('child', isEqualTo: UsersService.member!.UserId).where('needsconfirm', isEqualTo: true).snapshots().listen((event) {
       tasks = [];
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         tasks!.add(Task.fromSnapshot(element));
-      });
+      }
       setState(() {});
     });
   }
 
-  bool? _value = false;
+  needsNoMoreConfirmation(String taskId) {
+    String familyId = UsersService.family!.getFamilyId().toString().trim();
+    print("familyId: ${familyId}");
+    print("taskId: ${taskId}");
+    DocumentReference<Map<String, dynamic>> doc = FirebaseFirestore.instance.collection('family').doc(familyId).collection('tasks').doc(taskId);
+    doc.update({"needsconfirm": false}).then((value) => print("DocumentSnapshot successfully updated!"), onError: (e) => print("Error updating document $e"));
+  }
 
   @override
   Widget build(BuildContext context) {
     return tasks == null || !UsersService.loadedstatus.value
         ? Text('Loading...')
         : Scaffold(
-            appBar: AppBar(title: Text("My Tasks"), centerTitle: true),
+            appBar: AppBar(title: Text("My tasks"), centerTitle: true),
             body: ListView.builder(
                 itemBuilder: (ctx, i) {
                   Task task = tasks![i];
+                  bool done = false;
                   return Card(
                     child: CheckboxListTile(
                       title: Text(task.task),
                       subtitle: Text('Points: ${task.points}'),
                       onChanged: (bool? value) {
-                        setState(() {
-                          _value = value;
-                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              "Are you done with the task?",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("cancel")),
+                              TextButton(
+                                  onPressed: () {
+                                    print(task.taskId);
+                                    setState(() {
+                                      task.needsConfirm = (!value!);
+                                    });
+                                    Navigator.pop(context);
+                                    tasks?.removeAt(i);
+                                    needsNoMoreConfirmation(task.taskId.trim());
+                                  },
+                                  child: Text("done!")),
+                            ],
+                          ),
+                        );
                       },
-                      value: _value,
+                      value: (!task.needsConfirm),
                     ),
                   );
                 },

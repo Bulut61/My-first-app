@@ -130,14 +130,9 @@ class _SignInPageState extends State<SignInPage> {
                   } else {
                     result = result as User;
                     print(result.email);
-                    userData = await LoadDataFirebase.getDocumentUser(result!.uid);
+                    userData = await LoadDataFirebase.getDocumentUser(result.uid);
                     if (userData.containsKey("hasfamily")) {
-                      if (userData["hasfamily"] = true) {
-                        print(userData.toString());
-                        print(userData["hasfamily"].toString());
-                        print(result!.uid);
-                        print("gangster");
-                      }
+                      if (userData["hasfamily"] = true) {}
                     }
                     if (userData.containsKey("familyid")) {
                       familyData = await LoadDataFirebase.getDocumentFamily(userData["familyid"]);

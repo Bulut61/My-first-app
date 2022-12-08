@@ -39,7 +39,7 @@ class _FamPageState extends State<FamPage> {
                     ),
                     SelectableText(
                       "${UsersService.family!.getFamilyId()}",
-                      style: TextStyle(color: Colors.red, fontSize: 16),
+                      style: TextStyle(color: Colors.purple, fontSize: 16),
                     )
                   ],
                 ),

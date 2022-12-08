@@ -5,6 +5,7 @@ import 'Child.dart';
 class Task {
   Task({required this.task, required this.points, required this.deadline, required this.child, required this.needsConfirm, required this.isDone});
 
+  late String taskId;
   late String task;
   late int points;
   late DateTime deadline;
@@ -20,7 +21,8 @@ class Task {
     child = Child(UserId: '', firstName: '', lastName: '');
     needsConfirm = snap.get('needsconfirm');
     isDone = snap.get('isdone');
+    taskId = snap.id;
   }
 
-  Map<String, dynamic> getData() => {'task': task, 'points': points, 'deadline': Timestamp.fromDate(deadline), 'child': child.UserId, 'needsconfirm': needsConfirm, 'isdone': isDone};
+  Map<String, dynamic> getData() => {'task': task, 'points': points, 'deadline': Timestamp.fromDate(deadline), 'child': child.UserId, 'needsconfirm': needsConfirm, 'isdone': isDone, 'taskid': taskId};
 }
