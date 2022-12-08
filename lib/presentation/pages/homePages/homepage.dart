@@ -11,6 +11,7 @@ import 'package:projekt/presentation/pages/homePages/confirm_task_page.dart';
 import 'package:projekt/presentation/pages/homePages/parent_Homepage.dart';
 import 'package:projekt/presentation/pages/homePages/pocket_money_page.dart';
 import 'package:projekt/presentation/pages/homePages/shopping_list_page.dart';
+import 'package:projekt/presentation/pages/sign_in_page.dart';
 import 'package:projekt/presentation/routes/app_router.gr.dart';
 import 'package:projekt/presentation/widgets/custom_button.dart';
 import 'package:projekt/services/load_data_firebase.dart';
@@ -45,7 +46,7 @@ class _HomepageState extends State<Homepage> {
         if (!UsersService.loadedstatus.value) {
           return Text("loading...");
         } else {
-          return getPage();
+          return getPage(); //return getPage();
         }
       },
     );

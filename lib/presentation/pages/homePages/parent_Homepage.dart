@@ -102,10 +102,12 @@ class _ParentHomepageState extends State<ParentHomepage> {
               },
               child: Text("create family")),
           TextButton(
-              onPressed: () {
-                printDate();
+              onPressed: () async {
+                await _auth.signOut();
+                setState(() {});
+                context.router.replace(SignInPageRoute());
               },
-              child: Text("date format"))
+              child: Text("signout"))
         ],
       ),
     );
