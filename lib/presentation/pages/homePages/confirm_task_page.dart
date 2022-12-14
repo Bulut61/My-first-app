@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/Child.dart';
 import 'package:projekt/family_classes/task.dart';
 import 'package:projekt/services/user_service.dart';
 
@@ -47,13 +48,13 @@ class _ConfirmTaskPageState extends State<ConfirmTaskPage> {
                   return Card(
                     child: CheckboxListTile(
                       title: Text(task.task),
-                      subtitle: Text('Points: ${UsersService.family!.childs.firstWhere((element) => element.UserId == task.child).firstName}'),
+                      subtitle: Text('Points: ${task.child.firstName}'),
                       onChanged: (bool? value) {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: Text(
-                              "Are you done with the task?",
+                              "is the Task done?",
                               style: TextStyle(fontSize: 14),
                             ),
                             actions: [
@@ -71,8 +72,9 @@ class _ConfirmTaskPageState extends State<ConfirmTaskPage> {
                                     Navigator.pop(context);
                                     tasks?.removeAt(i);
                                     isDone(task.taskId);
+                                    assignPoints(task);
                                   },
-                                  child: Text("confirm!")),
+                                  child: Text("assign points!")),
                             ],
                           ),
                         );
@@ -83,5 +85,17 @@ class _ConfirmTaskPageState extends State<ConfirmTaskPage> {
                 },
                 itemCount: tasks!.length),
           );
+  }
+
+  void assignPoints(Task task) {
+    DocumentReference<Map<String, dynamic>> doc = FirebaseFirestore.instance.collection('users').doc(task.child.UserId);
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      final snapshot = await transaction.get(doc);
+      final newPoints = snapshot.get('points') + task.points;
+      transaction.update(doc, {'points': newPoints});
+    }).then(
+      (value) => print("DocumentSnapshot successfully updated!"),
+      onError: (e) => print("Error updating document $e"),
+    );
   }
 }

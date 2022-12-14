@@ -51,7 +51,7 @@ class _ParentHomepageState extends State<ParentHomepage> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 60),
+          SizedBox(height: 30),
           CustomButton(
               onPressed: () {
                 AutoRouter.of(context).push(TaskPageRoute());

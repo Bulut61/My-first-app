@@ -45,6 +45,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
     var ref = await FirebaseFirestore.instance.collection('family').add({
       'name': FamilyName,
       'members': [currentUserId],
+      'weeklygoal': 0,
     }).catchError((error) => print("Failed to create family: $error"));
     familyID = ref.id;
     LoadDataFirebase.setHasFamily(familyID).catchError((e) => print("setHasFamily failed $e"));

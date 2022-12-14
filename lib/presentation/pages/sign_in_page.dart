@@ -156,16 +156,6 @@ class _SignInPageState extends State<SignInPage> {
                       context.router.push(RRouter());
                     },
                     child: Text("register!")),
-                SizedBox(width: 5),
-                TextButton(
-                    onPressed: () {
-                      if (UsersService.member == null) {
-                        print("user is null");
-                      } else {
-                        print(UsersService.member!.firstName);
-                      }
-                    },
-                    child: Text("User Id!"))
               ],
             )
           ],

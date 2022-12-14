@@ -214,6 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'lastname': lastName,
       'hasfamily': false,
       'parent': false,
+      'points': 0,
     }).catchError((error) => print("Failed to add user: $error"));
     UsersService.setMember(firstName, lastName, id);
   }

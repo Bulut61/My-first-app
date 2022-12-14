@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:projekt/family_classes/fam_member.dart';
 import 'package:projekt/services/user_service.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class FamPage extends StatefulWidget {
   const FamPage({super.key});
@@ -27,7 +28,7 @@ class _FamPageState extends State<FamPage> {
         ? Text('Loading...')
         : Scaffold(
             appBar: AppBar(title: Text("My Family"), centerTitle: true),
-            body: Column(
+            body: ListView(
               children: [
                 SizedBox(height: 8),
                 Row(
@@ -43,25 +44,32 @@ class _FamPageState extends State<FamPage> {
                     )
                   ],
                 ),
-                SizedBox(height: 8),
-                Expanded(
-                  child: ListView.builder(
-                      itemBuilder: (ctx, i) {
-                        FamMember member = members![i];
-                        return Card(
-                          child: ListTile(
-                            leading: Icon(
-                              Icons.account_circle,
-                              color: members![i].firstName.trim() == UsersService.member!.firstName.trim() ? Colors.black : Colors.purple, //Colors.purple,
-                            ),
-                            title: Text(member.firstName),
-                            subtitle: Text(member.lastName),
-                            //subtitle: Text('Points: ${task.points}'),
-                          ),
-                        );
-                      },
-                      itemCount: members!.length),
+                Center(
+                  child: QrImage(
+                    data: '${UsersService.family!.getFamilyId()}',
+                    version: QrVersions.auto,
+                    size: 120,
+                    gapless: false,
+                  ),
                 ),
+                SizedBox(height: 8),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (ctx, i) {
+                      FamMember member = members![i];
+                      return Card(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.account_circle,
+                            color: members![i].firstName.trim() == UsersService.member!.firstName.trim() ? Colors.black : Colors.purple, //Colors.purple,
+                          ),
+                          title: Text(member.firstName),
+                          subtitle: Text(member.lastName),
+                          //subtitle: Text('Points: ${task.points}'),
+                        ),
+                      );
+                    },
+                    itemCount: members!.length),
               ],
             ),
           );
