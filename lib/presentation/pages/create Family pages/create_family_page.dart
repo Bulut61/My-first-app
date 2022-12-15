@@ -46,6 +46,8 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
       'name': FamilyName,
       'members': [currentUserId],
       'weeklygoal': 0,
+      'fixedmoney': 0,
+      'bonusmoney': 0,
     }).catchError((error) => print("Failed to create family: $error"));
     familyID = ref.id;
     LoadDataFirebase.setHasFamily(familyID).catchError((e) => print("setHasFamily failed $e"));
@@ -131,7 +133,7 @@ class _CreateFamilyPageState extends State<CreateFamilyPage> {
                                   firstName = await LoadDataFirebase.getFirstNameOfCurrentUser();
                                   lastName = await LoadDataFirebase.getLastNameOfCurrentUser();
                                   uid = await AuthService.getUserId();
-                                  UsersService.setFamily(_familyNameController.text, familyID);
+                                  UsersService.setFamily(_familyNameController.text, familyID, 0, 0, 0);
                                   print(UsersService.family!.getFamilyId());
                                   UsersService.family!.parents.forEach((element) {
                                     print(element.firstName);

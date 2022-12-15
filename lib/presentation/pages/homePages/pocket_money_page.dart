@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:projekt/family_classes/Child.dart';
 import 'package:projekt/family_classes/fam_member.dart';
 import 'package:projekt/services/user_service.dart';
 
@@ -14,21 +15,24 @@ class PocketMoneyPage extends StatefulWidget {
 }
 
 class _PocketMoneyPageState extends State<PocketMoneyPage> {
-  List<FamMember>? childs;
+  List<Child>? childs;
+  ValueNotifier<int> goal = ValueNotifier<int>(0);
+  ValueNotifier<int> fixedMoney = ValueNotifier<int>(0);
+  ValueNotifier<int> bonusMoney = ValueNotifier<int>(0);
+  ValueNotifier<int> diff = ValueNotifier<int>(0);
+  ValueNotifier<int> earnedMoney = ValueNotifier<int>(0);
   void initState() {
     if (UsersService.loadedstatus.value) {
-      childs = UsersService.family!.childs; //new List.from(UsersService.family!.parents)..addAll(UsersService.family!.childs);
+      childs = UsersService.family!.childs;
+      goal.value = (UsersService.family?.getWeeklyGoal() == null) ? 0 : UsersService.family?.getWeeklyGoal();
+      fixedMoney.value = (UsersService.family?.getFixedMoney() == null) ? 0 : UsersService.family?.getFixedMoney();
+      bonusMoney.value = (UsersService.family?.getBonusMoney() == null) ? 0 : UsersService.family?.getBonusMoney();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    ValueNotifier<int> fixedMoney = ValueNotifier<int>(0);
-    ValueNotifier<int> bonusMoney = ValueNotifier<int>(0);
-    ValueNotifier<int> goal = ValueNotifier<int>(0);
-    fixedMoney = ValueNotifier<int>(0);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Pocket Money"),
@@ -50,9 +54,10 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 80),
                 child: TextFormField(
+                  initialValue: fixedMoney.value.toString(),
                   onFieldSubmitted: (value) {
                     fixedMoney.value = int.parse(value);
-                    //print(fixedMoney.value);
+                    setFixedMoney(fixedMoney.value);
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -79,8 +84,10 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 80),
                 child: TextFormField(
+                  initialValue: bonusMoney.value.toString(),
                   onFieldSubmitted: (value) {
                     bonusMoney.value = int.parse(value);
+                    setBonusMoney(bonusMoney.value);
                     //print(bonusMoney.value);
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
@@ -108,6 +115,7 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 80),
                 child: TextFormField(
+                  initialValue: goal.value.toString(),
                   onFieldSubmitted: (value) {
                     goal.value = int.parse(value);
                     setGoal(goal.value);
@@ -125,54 +133,22 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
         ),
         SizedBox(height: 40),
         childWithPocketmoneyView(true, "Child: ", ""),
-        /*Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: ValueListenableBuilder<int>(
-                  valueListenable: fixedMoney,
-                  builder: (BuildContext context, int value, Widget? child) {
-                    return Text(
-                      "${value}",
-                      style: TextStyle(fontSize: 18),
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: ValueListenableBuilder<int>(
-                  valueListenable: bonusMoney,
-                  builder: (BuildContext context, int value, Widget? child) {
-                    return Text(
-                      "${value}",
-                      style: TextStyle(fontSize: 18),
-                    );
-                  }),
-            ),
-          ],
-        ),*/
         UsersService.loadedstatus.value
             ? ListView.builder(
                 shrinkWrap: true,
                 itemCount: childs!.length,
                 //padding: const EdgeInsets.all(8.0),
                 itemBuilder: (ctx, i) {
-                  FamMember child = childs![i];
-                  return childWithPocketmoneyView(false, child.firstName, child.lastName); /*Card(
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.account_circle,
-                        color: childs![i].firstName.trim() == UsersService.member!.firstName.trim() ? Colors.black : Colors.purple, //Colors.purple,
-                      ),
-                      title: Text(member.firstName),
-                      subtitle: Text(member.lastName),
-                      //subtitle: Text('Points: ${task.points}'),
-                    ),
-                  );*/
+                  Child child = childs![i];
+                  return childWithPocketmoneyView(false, child.firstName, child.getCurrentPoints().toString());
                 },
               )
             : Text("Loading..."),
+        TextButton(
+            onPressed: () {
+              print(goal.value);
+            },
+            child: Text("print goal"))
       ]),
     );
   }
@@ -183,9 +159,22 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
     doc.update({'weeklygoal': points}).then((value) => print("DocumentSnapshot 'weeklygoal' successfully updated!"), onError: (e) => print("Error updating document $e"));
   }
 
+  setFixedMoney(int points) {
+    String familyId = UsersService.family!.getFamilyId().toString().trim();
+    DocumentReference<Map<String, dynamic>> doc = FirebaseFirestore.instance.collection('family').doc(familyId);
+    doc.update({'fixedmoney': points}).then((value) => print("DocumentSnapshot 'fixedmoney' successfully updated!"), onError: (e) => print("Error updating document $e"));
+  }
+
+  setBonusMoney(int points) {
+    String familyId = UsersService.family!.getFamilyId().toString().trim();
+    DocumentReference<Map<String, dynamic>> doc = FirebaseFirestore.instance.collection('family').doc(familyId);
+    doc.update({'bonusmoney': points}).then((value) => print("DocumentSnapshot 'bonusmoney' successfully updated!"), onError: (e) => print("Error updating document $e"));
+  }
+
   Widget childWithPocketmoneyView(bool descriptionLine, String rowLeading, String rowforth) {
+    final ThemeData themeData = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      padding: descriptionLine ? EdgeInsets.symmetric(vertical: 10, horizontal: 10) : const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           Container(
@@ -204,18 +193,31 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
           Container(
             width: MediaQuery.of(context).size.width * 0.10,
             height: 32,
-            color: Colors.pink,
-            child: descriptionLine ? Icon(Icons.access_time_filled_outlined) : Text(""),
+            color: Color.fromARGB(255, 76, 185, 88),
+            alignment: Alignment.center,
+            child: descriptionLine
+                ? Icon(
+                    Icons.attach_money_outlined,
+                    color: Colors.white,
+                  )
+                : Text(moneyToPay(int.parse(rowforth))),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.10,
             height: 32,
-            color: Colors.deepOrange,
+            color: Color.fromARGB(255, 76, 107, 185),
+            alignment: Alignment.center,
+            child: descriptionLine
+                ? Icon(
+                    Icons.difference,
+                    color: Colors.white,
+                  )
+                : Text(difference(int.parse(rowforth))),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.10,
             height: 32,
-            color: Colors.green,
+            color: themeData.colorScheme.primary,
             alignment: Alignment.center,
             child: descriptionLine
                 ? Icon(Icons.assignment_turned_in_sharp)
@@ -227,5 +229,13 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
         ],
       ),
     );
+  }
+
+  String moneyToPay(int points) {
+    return (0 >= int.parse(difference(points))) ? fixedMoney.value.toString() : (fixedMoney.value + bonusMoney.value).toString();
+  }
+
+  String difference(int points) {
+    return (points - goal.value).toString();
   }
 }

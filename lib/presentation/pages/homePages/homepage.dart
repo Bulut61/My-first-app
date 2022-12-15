@@ -113,10 +113,10 @@ class _HomepageState extends State<Homepage> {
         UsersService.memberIsParent(userData["firstname"], userData["lastname"], id);
       } else {
         UsersService.isParentstatus.value = false;
-        UsersService.memberIsChild(userData["firstname"], userData["lastname"], id);
+        UsersService.memberIsChild(userData["firstname"], userData["lastname"], id, userData['points']);
       }
     }
-    UsersService.setFamily(familyData["name"], userData["familyid"]);
+    UsersService.setFamily(familyData["name"], userData["familyid"], familyData['weeklygoal'], familyData['fixedmoney'], familyData['bonusmoney']);
     await UsersService.buildFamily(familyMembers);
   }
 }
