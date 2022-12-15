@@ -58,6 +58,7 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
                   onFieldSubmitted: (value) {
                     fixedMoney.value = int.parse(value);
                     setFixedMoney(fixedMoney.value);
+                    setState(() {});
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -88,7 +89,7 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
                   onFieldSubmitted: (value) {
                     bonusMoney.value = int.parse(value);
                     setBonusMoney(bonusMoney.value);
-                    //print(bonusMoney.value);
+                    setState(() {});
                   },
                   decoration: new InputDecoration(labelText: "Amount", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -119,7 +120,7 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
                   onFieldSubmitted: (value) {
                     goal.value = int.parse(value);
                     setGoal(goal.value);
-                    //print(fixedMoney.value);
+                    setState(() {});
                   },
                   decoration: new InputDecoration(labelText: "Points", hintText: "Only digits"),
                   keyboardType: TextInputType.number,
@@ -144,11 +145,6 @@ class _PocketMoneyPageState extends State<PocketMoneyPage> {
                 },
               )
             : Text("Loading..."),
-        TextButton(
-            onPressed: () {
-              print(goal.value);
-            },
-            child: Text("print goal"))
       ]),
     );
   }
